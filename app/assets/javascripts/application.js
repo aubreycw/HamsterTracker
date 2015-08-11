@@ -11,11 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//= require serialize_json
 //= bootstrap-sprockets
 //= require jquery_ujs
 //= require turbolinks
 //= require underscore
 //= require backbone
+//= require_tree ./utils
 //= require hamster_tracker
 //= require_tree ../templates
 //= require_tree ./models

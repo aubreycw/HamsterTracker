@@ -33,6 +33,8 @@ gem 'bootstrap-sass'
 
 gem 'backbone-on-rails'
 
+gem 'serialize_json-rails'
+
 gem 'responders'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -1,8 +1,10 @@
 class Api::TrackingSubjectsController < ApplicationController
   respond_to :json
 
-  def new
-    @tracking_subject = TrackingSubject.new(tracking_subject_params)
+  def create
+    params = tracking_subject_params
+    params["user_id"] = current_user.id
+    @tracking_subject = TrackingSubject.new(params)
     if @tracking_subject.save
       render :json => @tracking_subject
     else
@@ -17,7 +19,8 @@ class Api::TrackingSubjectsController < ApplicationController
   end
 
   def index
-    @tracking_subjects = TrackingSubject.all
+    user = current_user
+    @tracking_subjects = user.tracking_subjects
     render :json => @tracking_subjects
   end
 
@@ -32,6 +35,6 @@ class Api::TrackingSubjectsController < ApplicationController
 
   private
   def tracking_subject_params
-    params.require(:tracking_subject).permit(:title, :body)
+    params.require(:tracking_subject).permit(:name)
   end
 end

@@ -4,7 +4,10 @@ window.HamsterTracker = {
   Views: {},
   Routers: {},
   initialize: function() {
-    alert('Hello from Backbone!');
+    HamsterTracker.subjects = new HamsterTracker.Collections.Subjects();
+    new HamsterTracker.Routers.Router({$el: $("#content")});
+    Backbone.history.stop();
+    Backbone.history.start();
   }
 };
 
