@@ -20,10 +20,12 @@ HamsterTracker.Views.SubjectForm = Backbone.View.extend({
     var attrs = $(event.target).serializeJSON();
 
     var that = this;
-    this.model.save(attrs, {
+    this.model.set(attrs);
+    console.log("about to save");
+    this.model.save({}, {
       success: function () {
         that.collection.add(that.model);
-        Backbone.history.navigate('#/', { trigger: true });
+        Backbone.history.navigate('#/tracking_subjects/'+that.model.get("id"), { trigger: true });
       },
 
       error: function (model, response) {

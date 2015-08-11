@@ -19,9 +19,24 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     this.$sidebar.html(view.render().$el);
   },
 
+  renderShow: function(id){
+    console.log("in render show")
+    var model = this.collection.getOrFetch(id);
+    var view = new HamsterTracker.Views.SubjectShow({model: model});
+    this._swapView(view)
+  },
+
   renderNew: function(){
     this.collection.fetch();
     var model = new HamsterTracker.Models.Subject();
+    var view = new HamsterTracker.Views.SubjectForm({
+      model: model, 
+      collection: this.collection});
+    this._swapView(view);
+  },
+
+  renderEdit: function(id){
+    var model = this.collection.getOrFetch(id);
     var view = new HamsterTracker.Views.SubjectForm({
       model: model, 
       collection: this.collection});

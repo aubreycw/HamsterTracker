@@ -10,6 +10,8 @@ window.HamsterTracker = {
     var indexView = new HamsterTracker.Views.SubjectsIndex({
       collection: HamsterTracker.subjects
     });
+    $('#sidebar').html(indexView.render().$el);
+
 
     new HamsterTracker.Routers.Router({
       $rootEl: $("#content"),

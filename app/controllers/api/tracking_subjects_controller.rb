@@ -1,6 +1,11 @@
 class Api::TrackingSubjectsController < ApplicationController
   respond_to :json
 
+  def show
+    @tracking_subject = TrackingSubject.find(params[:id])
+    render :json => @tracking_subject
+  end
+
   def create
     params = tracking_subject_params
     params["user_id"] = current_user.id
@@ -21,13 +26,6 @@ class Api::TrackingSubjectsController < ApplicationController
   def index
     user = current_user
     @tracking_subjects = user.tracking_subjects
-    puts("----------------------------")
-    puts("----------------------------")
-    puts("----------------------------")
-    puts(@tracking_subjects)
-    puts("----------------------------")
-    puts("----------------------------")
-    puts("----------------------------")
     render :json => @tracking_subjects
   end
 
