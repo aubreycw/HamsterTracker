@@ -1,8 +1,8 @@
-class Api::TrackingSubjectController < ApplicationController
+class Api::TrackingSubjectsController < ApplicationController
   respond_to :json
 
   def new
-    @tracking_subject = tracking_subject.new(tracking_subject_params)
+    @tracking_subject = TrackingSubject.new(tracking_subject_params)
     if @tracking_subject.save
       render :json => @tracking_subject
     else
@@ -11,18 +11,18 @@ class Api::TrackingSubjectController < ApplicationController
   end
 
   def destroy
-    @tracking_subject = tracking_subject.find(params[:id])
+    @tracking_subject = TrackingSubject.find(params[:id])
     @tracking_subject.destroy
     render :json => nil
   end
 
   def index
-    @tracking_subjects = tracking_subject.all
+    @tracking_subjects = TrackingSubject.all
     render :json => @tracking_subjects
   end
 
   def update
-    @tracking_subject = tracking_subject.find(params[:id])
+    @tracking_subject = TrackingSubject.find(params[:id])
     if @tracking_subject.update(tracking_subject_params)
       render :json => @tracking_subject
     else
