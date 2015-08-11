@@ -7,5 +7,5 @@ Rails.application.routes.draw do
     resources :tracking_subjects, only: [:index, :new, :destroy, :update] 
   end
 
-  root to: "static_pages#index"
+  root "welcome#index"
 end
