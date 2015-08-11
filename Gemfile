@@ -29,6 +29,7 @@ gem 'annotate'
 
 gem 'bcrypt'
 
+gem 'bootstrap-sass'
 
 gem 'responders'
 # Use ActiveModel has_secure_password

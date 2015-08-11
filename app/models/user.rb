@@ -13,14 +13,14 @@
 
 class User < ActiveRecord::Base
   validate :ensure_session_token
-  validates :username, :password, :email, :session_token, presence: true
+  validates :username, :password_digest, :email, :session_token, presence: true
   validates :username, :email, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
   attr_reader :password
 
   has_many :tracking_subjects
 
-  def self.find_by_credentials(password, username)
+  def self.find_by_credentials(username, password)
     user = User.find_by({username: username})
     return user if (user && user.is_password?(password))
     return nil

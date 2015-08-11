@@ -27,7 +27,7 @@ development:
   encoding: unicode
   host: localhost
   username: 
-  password: 
+  password:
   database: HamsterTracker_development
   port: 5432  
 

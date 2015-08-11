@@ -1,4 +1,7 @@
 <h1>Hamster Tracker</h1>
+<%if !!current_user %>
+  Welcome <%=current_user.username%>!
+<%end%>
 <%= button_to "Sign Out", session_url, :method => :delete, :class => "sign_out_button" %>
 
 <div id='sidebar'></div>
