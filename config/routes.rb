@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
 
-  resource :session
-  resources :users
+  root to: "welcome#index"
 
-  namespace :api do
-    resources :tracking_subjects, only: [:index, :new, :destroy, :update] 
-  end
+  # resource :session
+  # resources :users
 
-  root "welcome#index"
+  # namespace :api do
+  #   resources :tracking_subjects, only: [:index, :new, :destroy, :update] 
+  # end
+
 end
