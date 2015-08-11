@@ -40,11 +40,11 @@ test:
   database: HamsterTracker_test
   port: 5432 
 
-production:
-  adapter: postgresql
-  encoding: unicode
-  host: localhost
-  database: HamsterTracker_production
-  username: HamsterTracker
-  password: <%= ENV['HAMSTERTRACKER_DATABASE_PASSWORD'] %>
-  port: 5432 
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   host: localhost
+#   database: HT_prod_test
+#   username: HamsterTracker
+#   password: <%= ENV['HAMSTERTRACKER_DATABASE_PASSWORD'] %>
+#   port: 5432 
