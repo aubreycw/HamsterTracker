@@ -1,0 +1,9 @@
+<h1>Hamster Tracker</h1>
+<%= button_to "Sign Out", session_url, :method => :delete, :class => "sign_out_button" %>
+
+<div id='sidebar'></div>
+<div id='content'></div>
+
+<script>
+  $(HamsterTracker.initialize);
+</script>
