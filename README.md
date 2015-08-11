@@ -4,15 +4,15 @@
 
 <!-- TODO -->
 
-[heroku]: http://www.google.com
+[heroku]: http://hamstertracker.herokuapp.com
 
 ## Minimum Viable Product
 Hamster Tracker is a general tracking app, which makes understanding the relationships between your tracked data easy. Users can:
 
 <!-- This is a Markdown checklist. Use it to keep track of your progress! -->
 
-- [ ] Create accounts
-- [ ] Create sessions (log in)
+- [x] Create accounts
+- [x] Create sessions (log in)
 - [ ] Create tracking subjects (hamster health)
 - [ ] Create tracking subject attributes (weight, shinyness, walnuts eaten)
 - [ ] Choose range and type of attributes (weight is a float, shinyness is an int from 0 to 5)
