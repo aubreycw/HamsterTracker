@@ -32,5 +32,6 @@ HamsterTracker.Views.SubjectForm = Backbone.View.extend({
         $('.errors').append($li);
       }
     });
+    this.remove();
   }
 });

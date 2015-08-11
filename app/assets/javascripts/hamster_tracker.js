@@ -5,7 +5,18 @@ window.HamsterTracker = {
   Routers: {},
   initialize: function() {
     HamsterTracker.subjects = new HamsterTracker.Collections.Subjects();
-    new HamsterTracker.Routers.Router({$el: $("#content")});
+    HamsterTracker.subjects.fetch()
+    // { reset: true }
+    var indexView = new HamsterTracker.Views.SubjectsIndex({
+      collection: HamsterTracker.subjects
+    });
+
+    new HamsterTracker.Routers.Router({
+      $rootEl: $("#content"),
+      $sidebar: $('#sidebar')
+    });
+
+
     Backbone.history.stop();
     Backbone.history.start();
   }

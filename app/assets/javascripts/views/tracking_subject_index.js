@@ -1,11 +1,14 @@
 HamsterTracker.Views.SubjectsIndex = Backbone.CompositeView.extend({
   initialize: function(){
-  this.listenTo(this.collection, 'add', this.addSubjectSubview);
-  this.listenTo(this.collection, "add remove reset change", this.render);
 
   this.collection.each(function (subject) {
       this.addSubjectSubview(subject);
     }.bind(this));
+
+  this.listenTo(this.collection, 'add', this.addSubjectSubview);
+  this.listenTo(this.collection, "sync add remove reset change", this.render);
+
+
   },
 
   template: JST['tracking_subjects_index'],
@@ -19,13 +22,12 @@ HamsterTracker.Views.SubjectsIndex = Backbone.CompositeView.extend({
   },
 
   render: function(){
-    console.log("rendering")
-
     var subjects = this.collection;
     this.$el.html(this.template());
     
     this.attachSubviews();
     var that = this;
+
     subjects.each(function(subject){
       var subjectItem = new HamsterTracker.Views.SubjectsIndexItem({model: subject});
       that.$el.find(".subject_list").append(subjectItem.render().$el);
