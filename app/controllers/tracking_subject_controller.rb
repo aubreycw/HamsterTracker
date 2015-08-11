@@ -35,5 +35,4 @@ class Api::TrackingSubjectController < ApplicationController
     params.require(:tracking_subject).permit(:title, :body)
   end
 end
-end
 
