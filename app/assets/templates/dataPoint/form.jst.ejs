@@ -8,7 +8,7 @@
   <br>
 
   <label for="time">Date and time:</label>
-  <input type="datetime-local" id="time" name="data_point[time]" value="<%= dataPoint.escape("units") %>">
+  <input type="datetime-local" id="time" name="data_point[time]" value="<%= dataPoint.escape("time").slice(0,-1) %>">
 
   <br>
 
