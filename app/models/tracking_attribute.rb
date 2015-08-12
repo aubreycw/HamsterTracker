@@ -9,6 +9,7 @@
 #  is_float            :boolean          default(TRUE)
 #  min_val             :float
 #  max_val             :float
+#  units               :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -17,6 +18,7 @@ class TrackingAttribute < ActiveRecord::Base
   validates :name, :tracking_subject, presence: true
 
   belongs_to :tracking_subject
+  has_many :data_points
 
   def is_valid?(entry)
     is_correct_type(entry) && is_in_range(entry)

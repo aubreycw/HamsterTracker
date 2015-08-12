@@ -9,6 +9,7 @@
 #  is_float            :boolean          default(TRUE)
 #  min_val             :float
 #  max_val             :float
+#  units               :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

@@ -17,6 +17,7 @@ notes               | text      |
 is_float            | boolean   | default true
 min                 | float     | 
 max                 | float     | 
+units               | string    |
 
 ## DataPoint
 column name           | data type | details
@@ -25,6 +26,7 @@ id                    | integer   | not null, primary key
 tracking_attribute_id | integer   | not null, foreign key (references tracking attributes)
 value                 | float     | not null
 time                  | datetime  | not null
+notes                 | text      |
 
 ## TrackingSubjectAccess
 column name         | data type | details
