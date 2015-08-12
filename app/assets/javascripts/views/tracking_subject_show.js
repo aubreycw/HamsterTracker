@@ -24,7 +24,6 @@ HamsterTracker.Views.SubjectShow = Backbone.CompositeView.extend({
   saveField: function (event) {
     event.preventDefault();
     var newVal = $(event.currentTarget).val();
-
     this.model.set("name", newVal);
     this.model.save();
     this.render();
