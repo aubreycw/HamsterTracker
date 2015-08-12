@@ -17,5 +17,17 @@
 
   <br>
 
+  <label for="make_int">Allow only integer values:</label>
+  <input type="checkbox" name="tracking_attribute[is_float]" id="make_int" value="false">
+  <br>
+
+  <label for="min_val">Minimum allowed value (optional):</label>
+  <input type="number" step="0.01" id="min_val" name="tracking_attribute[min_val]" value="<%= attribute.escape("min_val") %>">
+  <br>
+
+  <label for="max_val">Maximum allowed value (optional):</label>
+  <input type="number" step="0.01" id="max_val" name="tracking_attribute[max_val]" value="<%= attribute.escape("max_val") %>">
+  <br>
+
   <input type="submit">
 </form>

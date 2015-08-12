@@ -15,10 +15,20 @@
 #
 
 class TrackingAttribute < ActiveRecord::Base
+  # validate :min_and_max_valid
   validates :name, :tracking_subject, presence: true
 
   belongs_to :tracking_subject
   has_many :data_points
+
+  # def min_and_max_valid
+  #   return true if !:min_val || !:max_val
+  #   if !(:min_val < :max_val)
+  #     min_val = :min_val
+  #     max_val = :max_val
+  #     errors[:min_val] << ": " + min_val + "must be less than" + max_val
+  #   end
+  # end
 
   def is_valid?(entry)
     is_correct_type(entry) && is_in_range(entry)
