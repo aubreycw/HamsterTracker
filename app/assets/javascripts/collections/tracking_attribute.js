@@ -4,7 +4,7 @@ HamsterTracker.Collections.Attributes = Backbone.Collection.extend({
   model: HamsterTracker.Models.Attribute,
 
   initialize: function(options){
-    this.url = "/api/tracking_subjects/" + options.trackingSubjectId
+    this.url = "/api/tracking_subjects/" + options.trackingSubjectId + "/tracking_attributes"
   },
 
   getOrFetch: function(id){

@@ -25,7 +25,6 @@ HamsterTracker.Views.SubjectsIndex = Backbone.CompositeView.extend({
   },
 
   addSubjectSubview: function (subject) {
-    console.log("adding subject");
     var subjectListItem = new HamsterTracker.Views.SubjectsIndexItem({
       model: subject
     });

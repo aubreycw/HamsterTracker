@@ -5,7 +5,7 @@ HamsterTracker.Views.AttributesIndex = Backbone.CompositeView.extend({
     success: function(){
       that.collection.each(function (attribute) {
         that.addAttributeSubview(attribute);
-      };
+      });
     }
   });
 
@@ -30,7 +30,7 @@ HamsterTracker.Views.AttributesIndex = Backbone.CompositeView.extend({
     var attributesListItem = new HamsterTracker.Views.AttributesIndexItem({
       model: attribute
     });
-    this.addSubview("ul.attributes-index", attributeListItem);
+    this.addSubview("ul.attributes-index", attributesListItem);
   },
 
   render: function(){

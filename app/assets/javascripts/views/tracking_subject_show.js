@@ -1,6 +1,17 @@
 HamsterTracker.Views.SubjectShow = Backbone.CompositeView.extend({
   initialize: function(){
     this.listenTo(this.model, 'sync destroy', this.render);
+
+    var that = this;
+    var attributes = new HamsterTracker.Collections.Attributes({trackingSubjectId: this.model.get("id")});
+    attributes.fetch({
+      success: function(){
+        var attributesList = new HamsterTracker.Views.AttributesIndex({
+          collection: attributes
+        });
+        that.addSubview("div.attributes-list", attributesList);
+        }
+    });
   },
 
   template: JST['tracking_subject_show'],
@@ -28,12 +39,11 @@ HamsterTracker.Views.SubjectShow = Backbone.CompositeView.extend({
     this.model.save();
     this.render();
   },
-
   
-
   render: function(){
     var content = this.template({subject: this.model});
     this.$el.html(content);;
+    this.attachSubviews();
     return this;
   },
 

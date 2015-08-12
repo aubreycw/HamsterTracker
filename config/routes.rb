@@ -6,9 +6,10 @@ Rails.application.routes.draw do
   resources :users
 
   namespace :api do
-    resources :tracking_subjects, only: [:index, :create, :destroy, :update, :show] 
-    resources :tracking_attributes, only: [:index, :create, :destroy, :update, :show]
-    resources :data_points, only: [:index, :create, :destroy, :update] 
+    resources :tracking_subjects, only: [:index, :create, :destroy, :update, :show] do 
+      resources :tracking_attributes, only: [:index, :create, :destroy, :update, :show] do
+        resources :data_points, only: [:index, :create, :destroy, :update]
+      end
+    end
   end
-
 end

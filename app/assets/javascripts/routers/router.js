@@ -8,10 +8,8 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   routes: {
     '': 'renderIndexSubject',
     'tracking_subjects/new': 'renderNewSubject',
-    'tracking_subjects/:id/tracking_attributes':  'renderIndexAttribute',
     'tracking_subjects/:id/tracking_attributes/new':  'renderNewAttribute',
     'tracking_subjects/:id/tracking_attributes/:atrbId/edit':  'renderEditAttribute',
-    'tracking_subjects/:id/tracking_attributes/:atrbId':  'renderShowAttribute',
     'tracking_subjects/:id/edit': 'renderEditSubject',
     'tracking_subjects/:id': 'renderShowSubject'
   },
@@ -49,22 +47,8 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   },
 
 // --------------------------------------- Attributes ------------------------------
-    
-  renderIndexAttribute: function(id){
-    var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
-    collection.fetch();
-    var view = new HamsterTracker.Views.AttributesIndex({collection: collection});
-    this._swapView(view);
-  },
 
-  renderShowSubject: function(id, atrbId){
-    var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
-    var model = collection.getOrFetch(atrbId);
-    var view = new HamsterTracker.Views.AttributeShow({model: model});
-    this._swapView(view)
-  },
-
-  renderNewSubject: function(id){
+  renderNewAttribute: function(id){
     var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
     var model = new HamsterTracker.Models.Attribute({trackingSubjectId: id});
     var view = new HamsterTracker.Views.AttributeForm({
@@ -73,7 +57,7 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     this._swapView(view);
   },
 
-  renderEditSubject: function(id, atrbId){
+  renderEditAttribute: function(id, atrbId){
     var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
     var model = collection.getOrFetch(atrbId);
     var view = new HamsterTracker.Views.AttributeForm({

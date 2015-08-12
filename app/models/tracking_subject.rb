@@ -14,4 +14,6 @@ class TrackingSubject < ActiveRecord::Base
   validates :user, :name, :public, presence: true
 
   belongs_to :user
+
+  has_many :tracking_attributes
 end
