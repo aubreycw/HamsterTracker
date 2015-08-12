@@ -8,6 +8,8 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   routes: {
     '': 'renderIndexSubject',
     'tracking_subjects/new': 'renderNewSubject',
+    'tracking_subjects/:sbjId/tracking_attributes/:atrbId/data_points/new' : 'renderNewDataPoint'
+    'tracking_subjects/:sbjId/tracking_attributes/:atrbId/data_points/:dtpId/edit' : 'renderEditDataPoint'
     'tracking_subjects/:id/tracking_attributes/new':  'renderNewAttribute',
     'tracking_subjects/:id/tracking_attributes/:atrbId/edit':  'renderEditAttribute',
     'tracking_subjects/:id/edit': 'renderEditSubject',
@@ -65,6 +67,27 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
       collection: collection});
     this._swapView(view);
   },
+
+// --------------------------------------- Data Points ------------------------------
+
+  renderNewDataPoint: function(SbjId, atrbId){
+    var collection = new HamsterTracker.Collections.DataPoints({trackingSubjectId: SbjId, trackingAtributeId: atrbId});
+    var model = new HamsterTracker.Models.DataPoint({trackingSubjectId: SbjId, trackingAtributeId: atrbId});
+    var view = new HamsterTracker.Views.DataPointForm({
+      model: model, 
+      collection: collection});
+    this._swapView(view);
+  },
+
+  renderEditDataPoint: function(SbjTd, atrbId, dptId){
+    var collection = new HamsterTracker.Collections.DataPoints({trackingSubjectId: SbjId, trackingAtributeId: atrbId});
+    var model = collection.getOrFetch(dptId);
+    var view = new HamsterTracker.Views.DataPointForm({
+      model: model, 
+      collection: collection});
+    this._swapView(view);
+  },
+
 
 
 // --------------------------------------- Swap View ------------------------------
