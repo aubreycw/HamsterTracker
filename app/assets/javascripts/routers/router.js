@@ -53,7 +53,7 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     var model = new HamsterTracker.Models.Attribute({trackingSubjectId: id});
     var view = new HamsterTracker.Views.AttributeForm({
       model: model, 
-      collection: this.collection});
+      collection: collection});
     this._swapView(view);
   },
 

@@ -1,0 +1,21 @@
+<form>
+  <ul class="errors">
+  </ul>
+
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="tracking_attribute[name]" value="<%= attribute.escape("name") %>">
+
+  <br>
+
+  <label for="notes">Notes:</label>
+  <input type="text" id="notes" name="tracking_attribute[notes]" value="<%= attribute.escape("notes") %>">
+
+  <br>
+
+  <label for="units">Units:</label>
+  <input type="text" id="units" name="tracking_attribute[units]" value="<%= attribute.escape("units") %>">
+
+  <br>
+
+  <input type="submit">
+</form>

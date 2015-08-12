@@ -1,4 +1,3 @@
-<a href="#/tracking_subjects/<%=attribute.get("tracking_subject_id")%>/tracking_attributes/<%=attribute.get("id")%>">
-  <%=attribute.escape("name")%> in units of: <%=attribute.escape("unit")%>
-</a>
+<%=attribute.escape("name")%> in units of <%=attribute.escape("units")%>
+<a href="#/tracking_subjects/<%=attribute.escape("tracking_subject_id")%>/tracking_attributes/<%=attribute.escape("id")%>/edit">edit</a>
 <button class="delete">delete</button>
