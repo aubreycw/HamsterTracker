@@ -6,27 +6,32 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   },
 
   routes: {
-    '': 'renderIndex',
-    'tracking_subjects/new': 'renderNew',
-    'tracking_subjects/:id/edit': 'renderEdit',
-    'tracking_subjects/:id': 'renderShow'
+    '': 'renderIndexSubject',
+    'tracking_subjects/new': 'renderNewSubject',
+    'tracking_subjects/:id/tracking_attributes':  'renderIndexAttribute',
+    'tracking_subjects/:id/tracking_attributes/new':  'renderNewAttribute',
+    'tracking_subjects/:id/tracking_attributes/:atrbId/edit':  'renderEditAttribute',
+    'tracking_subjects/:id/tracking_attributes/:atrbId':  'renderShowAttribute',
+    'tracking_subjects/:id/edit': 'renderEditSubject',
+    'tracking_subjects/:id': 'renderShowSubject'
   },
 
-  renderIndex: function(){
-    console.log("in render index")
+// --------------------------------------- Subjects ------------------------------
+
+
+  renderIndexSubject: function(){
     this.collection.fetch();
     var view = new HamsterTracker.Views.SubjectsIndex({collection: this.collection});
     this.$sidebar.html(view.render().$el);
   },
 
-  renderShow: function(id){
-    console.log("in render show")
+  renderShowSubject: function(id){
     var model = this.collection.getOrFetch(id);
     var view = new HamsterTracker.Views.SubjectShow({model: model});
     this._swapView(view)
   },
 
-  renderNew: function(){
+  renderNewSubject: function(){
     this.collection.fetch();
     var model = new HamsterTracker.Models.Subject();
     var view = new HamsterTracker.Views.SubjectForm({
@@ -35,13 +40,50 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     this._swapView(view);
   },
 
-  renderEdit: function(id){
+  renderEditSubject: function(id){
     var model = this.collection.getOrFetch(id);
     var view = new HamsterTracker.Views.SubjectForm({
       model: model, 
       collection: this.collection});
     this._swapView(view);
   },
+
+// --------------------------------------- Attributes ------------------------------
+    
+  renderIndexAttribute: function(id){
+    var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
+    collection.fetch();
+    var view = new HamsterTracker.Views.AttributesIndex({collection: collection});
+    this._swapView(view);
+  },
+
+  renderShowSubject: function(id, atrbId){
+    var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
+    var model = collection.getOrFetch(atrbId);
+    var view = new HamsterTracker.Views.AttributeShow({model: model});
+    this._swapView(view)
+  },
+
+  renderNewSubject: function(id){
+    var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
+    var model = new HamsterTracker.Models.Attribute({trackingSubjectId: id});
+    var view = new HamsterTracker.Views.AttributeForm({
+      model: model, 
+      collection: this.collection});
+    this._swapView(view);
+  },
+
+  renderEditSubject: function(id, atrbId){
+    var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
+    var model = collection.getOrFetch(atrbId);
+    var view = new HamsterTracker.Views.AttributeForm({
+      model: model, 
+      collection: collection});
+    this._swapView(view);
+  },
+
+
+// --------------------------------------- Swap View ------------------------------
 
   _swapView: function(view){
     this._view && this._view.remove();
