@@ -5,7 +5,7 @@ column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 name        | string    | not null
-public      | boolean   | default true, 
+public      | boolean   | default true
 
 ## TrackingAttribute
 column name         | data type | details
@@ -14,6 +14,9 @@ id                  | integer   | not null, primary key
 tracking_subject_id | integer   | not null, foreign key (references tracking subjects)
 name                | string    | not null
 notes               | text      | 
+is_float            | boolean   | default true
+min                 | float     | 
+max                 | float     | 
 
 ## DataPoint
 column name           | data type | details
