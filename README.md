@@ -13,7 +13,7 @@ Hamster Tracker is a general tracking app, which makes understanding the relatio
 
 - [x] Create accounts
 - [x] Create sessions (log in)
-- [ ] Create tracking subjects (hamster health)
+- [x] Create tracking subjects (hamster health)
 - [ ] Create tracking subject attributes (weight, shinyness, walnuts eaten)
 - [ ] Choose range and type of attributes (weight is a float, shinyness is an int from 0 to 5)
 - [ ] Enter data points
