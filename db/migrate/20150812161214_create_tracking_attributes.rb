@@ -7,6 +7,7 @@ class CreateTrackingAttributes < ActiveRecord::Migration
       t.boolean :is_float, default: true
       t.float :min_val
       t.float :max_val
+      t.string :units
       t.timestamps null: false
     end
   end
