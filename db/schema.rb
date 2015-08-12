@@ -17,8 +17,12 @@ ActiveRecord::Schema.define(version: 20150812163022) do
   enable_extension "plpgsql"
 
   create_table "data_points", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "tracking_attribute_id", null: false
+    t.float    "value",                 null: false
+    t.datetime "time",                  null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.text     "notes"
   end
 
   create_table "tracking_attributes", force: :cascade do |t|

@@ -1,5 +1,7 @@
 HamsterTracker.Views.DataPointsIndex = Backbone.CompositeView.extend({
-  initialize: function(){
+  initialize: function(options){
+  this.trackingAttributeId = options.trackingAttributeId;
+  this.trackingSubjectId = options.trackingSubjectId;
   var that = this;
   this.collection.fetch({
     success: function(){
@@ -27,8 +29,11 @@ HamsterTracker.Views.DataPointsIndex = Backbone.CompositeView.extend({
   },
 
   addDataPointSubview: function (dataPoint) {
+    var that = this;
     var dataPointListItem = new HamsterTracker.Views.DataPointsIndexItem({
-      model: dataPoint
+      model: dataPoint,
+      trackingAttributeId: that.trackingAttributeId,
+      trackingSubjectId: that.trackingSubjectId 
     });
     this.addSubview("ul.data-points-index", dataPointListItem);
   },
@@ -41,7 +46,11 @@ HamsterTracker.Views.DataPointsIndex = Backbone.CompositeView.extend({
     var that = this;
 
     dataPoints.each(function(dataPoint){
-      var dataPointItem = new HamsterTracker.Views.DataPointsIndexItem({model: dataPoint});
+      var dataPointItem = new HamsterTracker.Views.DataPointsIndexItem({
+        model: dataPoint,
+        trackingAttributeId: that.trackingAttributeId,
+        trackingSubjectId: that.trackingSubjectId        
+      });
       that.$el.find(".data_point_list").append(dataPointItem.render().$el);
     });
     return this;

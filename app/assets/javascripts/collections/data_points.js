@@ -4,7 +4,7 @@ HamsterTracker.Collections.DataPoints = Backbone.Collection.extend({
   model: HamsterTracker.Models.DataPoint,
 
   initialize: function(options){
-    this.url = "/api/tracking_subjects/" + options.trackingSubjectId + "/tracking_attributes/" + options.trackingAttributeId 
+    this.url = "/api/tracking_subjects/" + options.trackingSubjectId + "/tracking_attributes/" + options.trackingAttributeId + "/data_points" 
   },
 
   getOrFetch: function(id){

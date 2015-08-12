@@ -3,7 +3,10 @@ class Api::DataPointsController < ApplicationController
 
   def create
     dpparams = data_point_params
-    taparams["tracking_attribute_id"] = params[:tracking_attribute_id]
+    dpparams["tracking_attribute_id"] = params[:tracking_attribute_id]
+    puts("............................")
+    puts(dpparams[:value])
+    puts("............................")
     @data_point = DataPoint.new(dpparams)
     if @data_point.save
       render :json => @data_point
@@ -20,8 +23,13 @@ class Api::DataPointsController < ApplicationController
 
   def index
     @tracking_attribute = TrackingAttribute.find(params[:tracking_attribute_id])
-    @data_points = @tracking_attributes.data_points
+    @data_points = @tracking_attribute.data_points
     render :json => @data_points
+  end
+
+  def show
+    @data_point = DataPoint.find(params[:id])
+    render :json => @data_point
   end
 
   def update
@@ -35,6 +43,6 @@ class Api::DataPointsController < ApplicationController
 
   private
   def data_point_params
-    params.require(:data_point).permit(:name, :notes, :is_float, :min_val, :max_val, :units)
+    params.require(:data_point).permit(:value, :notes, :time)
   end
 end

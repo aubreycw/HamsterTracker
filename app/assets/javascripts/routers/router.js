@@ -8,8 +8,8 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   routes: {
     '': 'renderIndexSubject',
     'tracking_subjects/new': 'renderNewSubject',
-    'tracking_subjects/:sbjId/tracking_attributes/:atrbId/data_points/new' : 'renderNewDataPoint'
-    'tracking_subjects/:sbjId/tracking_attributes/:atrbId/data_points/:dtpId/edit' : 'renderEditDataPoint'
+    'tracking_subjects/:sbjId/tracking_attributes/:atrbId/data_points/new' : 'renderNewDataPoint',
+    'tracking_subjects/:sbjId/tracking_attributes/:atrbId/data_points/:dtpId/edit' : 'renderEditDataPoint',
     'tracking_subjects/:id/tracking_attributes/new':  'renderNewAttribute',
     'tracking_subjects/:id/tracking_attributes/:atrbId/edit':  'renderEditAttribute',
     'tracking_subjects/:id/edit': 'renderEditSubject',
@@ -71,17 +71,19 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
 // --------------------------------------- Data Points ------------------------------
 
   renderNewDataPoint: function(SbjId, atrbId){
-    var collection = new HamsterTracker.Collections.DataPoints({trackingSubjectId: SbjId, trackingAtributeId: atrbId});
-    var model = new HamsterTracker.Models.DataPoint({trackingSubjectId: SbjId, trackingAtributeId: atrbId});
+    var collection = new HamsterTracker.Collections.DataPoints({trackingSubjectId: SbjId, trackingAttributeId: atrbId});
+    var model = new HamsterTracker.Models.DataPoint({trackingSubjectId: SbjId, trackingAttributeId: atrbId});
     var view = new HamsterTracker.Views.DataPointForm({
       model: model, 
       collection: collection});
     this._swapView(view);
   },
 
-  renderEditDataPoint: function(SbjTd, atrbId, dptId){
-    var collection = new HamsterTracker.Collections.DataPoints({trackingSubjectId: SbjId, trackingAtributeId: atrbId});
+  renderEditDataPoint: function(sbjId, atrbId, dptId){
+    var collection = new HamsterTracker.Collections.DataPoints({trackingSubjectId: sbjId, trackingAttributeId: atrbId});
     var model = collection.getOrFetch(dptId);
+    model.trackingSubjectId = sbjId;
+    model.trackingAttributeId = atrbId;
     var view = new HamsterTracker.Views.DataPointForm({
       model: model, 
       collection: collection});
