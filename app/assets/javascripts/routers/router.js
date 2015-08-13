@@ -70,10 +70,14 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   },
 
   renderMakeEntry: function (id){    
-    var collection = new HamsterTracker.Collections.Attributes({trackingSubjectId: id});
+    var trackingSubject = this.collection.getOrFetch(id);
+    var collection = new HamsterTracker.Collections.Attributes({
+      trackingSubjectId: id
+    });
     var view = new HamsterTracker.Views.MakeEntry({
       collection: collection,
-      trackingSubjectId: id
+      trackingSubjectId: id,
+      trackingSubjectName: trackingSubject.escape("name")
     });
     this._swapView(view);
   },

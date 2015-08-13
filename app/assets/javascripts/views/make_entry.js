@@ -7,6 +7,7 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
 
   initialize: function(options) {
     this.trackingSubjectId = options.trackingSubjectId
+    this.trackingSubjectName = options.trackingSubjectName
     var that = this;
     this.collection.fetch({
       success: function(){
@@ -38,7 +39,7 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
   },
 
   render: function () {
-    var content = this.template({attribute: this.model});
+    var content = this.template({trackingSubjectName: this.trackingSubjectName});
     this.$el.html(content);
     this.attachSubviews();
     return this;
@@ -47,7 +48,6 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
   submit: function (event) {
     event.preventDefault();
     timeDate = this.$el.find(".timeInput")[0].value
-    debugger;
 
     var that = this;
     this.eachSubview(function (formView){
