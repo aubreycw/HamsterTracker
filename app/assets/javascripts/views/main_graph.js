@@ -3,6 +3,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   initialize: function(options){
     this.dataPointsList = options.dataPointsList;
     var that = this;
+    this.width = 600;
+    this.height = 400;
   },
 
   template: JST['main_graph'],
@@ -12,7 +14,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   attributes: {
     width: 600,
-    height: 400
+    height: 400,
   },
 
   className:"main-graph",
@@ -21,62 +23,44 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
 // ---------------------------------- Setup ------------------------
 
-  // Converts from a list of data point collections (this.dataPointsList) 
-  // to a list of lists of data points (ready for render)
-  getData: function(){
-    console.log("in get");
-    var dataListList = [];
-    var that = this;
-    var dataList = this.convertDataPointsList(this.dataPointsList[0]);
-    dataListList.push(dataList);
-    // this.dataPointsList.forEach(function(dataPoints){
-    //   var dataList = that.convertDataPointsList(dataPoints);
-    //   dataListList.push(dataList);
-    // });
-    return dataListList;
-  },
-
   // Takes data point collection and returns a list a data points for it
-  convertDataPointsList: function(dataPoints){
+  convertDataPointsColl: function(dataPoints){
     var dataList = [];
+    var that = this;
     dataPoints.fetch({
       success: function(){
         dataPoints.each(function(dataPoint){
-          dataList.push([1,2])
+          dataList.push([dataPoint.time(),dataPoint.get("value")])
         });
+        that.renderGraph(dataList);
       }
     })
-    return dataList;
   },
 
 // ---------------------------------- Render -----------------------
   render: function(){
-    console.log("in render");
-    var svg = d3.select(this.el);
-    var dataset = this.getData();
-    debugger;
-    // var dataset = [
-    //               [ 5,     20 ],
-    //               [ 480,   90 ],
-    //               [ 250,   50 ],
-    //               [ 100,   33 ],
-    //               [ 330,   95 ],
-    //               [ 410,   12 ],
-    //               [ 475,   44 ],
-    //               [ 25,    67 ],
-    //               [ 85,    21 ],
-    //               [ 220,   88 ]
-    //           ];
+    var that = this;
+    // this.dataPointsList.forEach(function(dataPoints){
+    //   that.convertDataPointsColl(dataPoints);
+    // });
+    this.convertDataPointsColl(this.dataPointsList[0]);
+  },
+  
 
+  renderGraph: function(dataList){
+    var svg = d3.select(this.el);
+    var dataset = dataList;
     var padding = 30
 
-    var xscale = d3.scale.linear()
-    .domain([0,500])
-    .range([padding,600-padding]);
+    // var format = d3.time.format("%Y-%m-%dT%H:%M:%SZ");
+
+    var xscale =  d3.time.scale()
+    .domain([d3.min(dataset, function(d) { return d[0]; }), d3.max(dataset, function(d) { return d[0]; })])
+    .range([padding, this.width-padding]);
 
     var yscale = d3.scale.linear()
-    .domain([0,100])
-    .range([400 - padding, padding]);
+    .domain([d3.min(dataset, function(d) { return d[1]; })-1, d3.max(dataset, function(d) { return d[1]; })+1])
+    .range([this.height - padding, padding]);
 
     var xAxis = d3.svg.axis()
     .scale(xscale)
@@ -96,12 +80,10 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .attr("cy", function(d) {
         return yscale(d[1]);
       })
-      .attr("r", function(d){
-        return d[1]*0.5;
-      });
+      .attr("r", 5);
 
     svg.append("g")
-      .attr("transform", "translate(0,"+(400-padding)+")")
+      .attr("transform", "translate(0,"+(this.height-padding)+")")
       .attr("class", "axis")
       .call(xAxis)
     ;
