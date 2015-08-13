@@ -14,7 +14,8 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     'tracking_subjects/:id/tracking_attributes/:atrbId/edit':  'renderEditAttribute',
     'tracking_subjects/:id/edit': 'renderEditSubject',
     'tracking_subjects/:id/make_entry': 'renderMakeEntry',
-    'tracking_subjects/:id': 'renderShowSubject'
+    'tracking_subjects/:id': 'renderShowSubject',
+    'graphTest': 'renderGraph'
   },
 
 // --------------------------------------- Subjects ------------------------------
@@ -104,6 +105,16 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
       collection: collection});
     this._swapView(view);
   },
+
+
+// --------------------------------------- Swap View ------------------------------
+
+  renderGraph: function (){
+    var view = new HamsterTracker.Views.MainGraph({});
+    this._swapView(view);
+  },
+
+
 
 
 // --------------------------------------- Swap View ------------------------------
