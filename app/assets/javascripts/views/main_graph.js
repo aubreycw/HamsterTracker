@@ -30,7 +30,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     dataPoints.fetch({
       success: function(){
         dataPoints.each(function(dataPoint){
-          dataList.push([dataPoint.time(),dataPoint.get("value")])
+          ids = [dataPoint.get("tracking_attribute_id"), dataPoint.get("id")]
+          dataList.push([dataPoint.time(),dataPoint.get("value"),ids])
         });
         that.renderGraph(dataList);
       }
@@ -64,7 +65,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     var xAxis = d3.svg.axis()
     .scale(xscale)
-    .orient("bottom");
+    .orient("bottom")
+    .ticks(5);
 
     var yAxis = d3.svg.axis()
     .scale(yscale)
@@ -80,7 +82,15 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .attr("cy", function(d) {
         return yscale(d[1]);
       })
-      .attr("r", 5);
+      .attr("r", 5)      
+      .attr("data-tsId",function(d) {
+        return d[2][0];
+      })
+      .attr("data-dpId",function(d) {
+        return d[2][1];
+      })
+
+      .attr("fill","purple");
 
     svg.append("g")
       .attr("transform", "translate(0,"+(this.height-padding)+")")
