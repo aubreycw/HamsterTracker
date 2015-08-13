@@ -74,6 +74,8 @@ I will change bootstrap/css/javascript files to make the app more attractive, an
 - [ ] Non linear options for lines of best fit
 - [ ] Automatic choosing of best function for line of best fit
 - [ ] View attributes graphed against other attributes (instead of time)
+- [ ] Email verification
+- [ ] Users can set alerts
 
 [phase-one]: ./docs/phases/phase1.md
 [phase-two]: ./docs/phases/phase2.md
