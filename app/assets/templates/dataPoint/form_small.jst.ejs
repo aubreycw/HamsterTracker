@@ -1,0 +1,13 @@
+<form>
+  <h4><%=attributeName%></h4>
+  <ul class="errors">
+  </ul>
+
+  <label for="value">Value:</label>
+  <input type="number" step="0.01" id="value" name="data_point[value]" value="<%= dataPoint.escape("value") %>">
+
+  <br>
+
+  <label for="notes">Notes:</label>
+  <input type="text" id="notes" name="data_point[notes]" value="<%= dataPoint.escape("notes") %>">
+</form>

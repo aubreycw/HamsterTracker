@@ -16,9 +16,7 @@ HamsterTracker.Views.DataPointForm = Backbone.View.extend({
 
   submit: function (event) {
     event.preventDefault();
-    console.log("HERE HERE HERE")
     var attrs = $(event.target).serializeJSON();
-
     var that = this;
     this.model.set(attrs);
     var sbjId = this.model.trackingSubjectId;
