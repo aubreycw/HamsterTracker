@@ -41,12 +41,25 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 // ---------------------------------- Render -----------------------
   render: function(){
     var that = this;
-    // this.dataPointsList.forEach(function(dataPoints){
-    //   that.convertDataPointsColl(dataPoints);
-    // });
-    this.convertDataPointsColl(this.dataPointsList[0]);
+    this.dataPointsList.forEach(function(dataPoints){
+      that.convertDataPointsColl(dataPoints);
+    });
+    // this.convertDataPointsColl(this.dataPointsList[0]);
   },
-  
+
+  // Take in dataListList
+  // For each list:
+    // add circles to graph (choose random color)
+    // add axis to "axisList"
+  // put each axis on graph
+
+  randomColor: function () {
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += "0123456789ABCDEF"[Math.floor((Math.random() * 16))];
+    }
+    return color;
+  },
 
   renderGraph: function(dataList){
     var svg = d3.select(this.el);
@@ -72,6 +85,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     .scale(yscale)
     .orient("left");
 
+    var col = this.randomColor();
+
     svg.selectAll("circle")
       .data(dataset)
       .enter()
@@ -89,8 +104,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .attr("data-dpId",function(d) {
         return d[2][1];
       })
-
-      .attr("fill","purple");
+      .attr("fill",col);
 
     svg.append("g")
       .attr("transform", "translate(0,"+(this.height-padding)+")")
