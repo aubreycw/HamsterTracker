@@ -19,11 +19,7 @@ window.HamsterTracker = {
     });
 
 
-    Backbone.history.stop();
+    // Backbone.history.stop();
     Backbone.history.start();
   }
 };
-
-$(document).ready(function(){
-  HamsterTracker.initialize();
-});

@@ -1,5 +1,10 @@
 HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
+  initialize: function(options){
+    this.dataPointsList = options.dataPointsList;
+    var that = this;
+  },
+
   template: JST['main_graph'],
 
   // tagName:"div",
@@ -16,27 +21,52 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
 // ---------------------------------- Setup ------------------------
 
+  // Converts from a list of data point collections (this.dataPointsList) 
+  // to a list of lists of data points (ready for render)
   getData: function(){
-    
-  }
+    console.log("in get");
+    var dataListList = [];
+    var that = this;
+    var dataList = this.convertDataPointsList(this.dataPointsList[0]);
+    dataListList.push(dataList);
+    // this.dataPointsList.forEach(function(dataPoints){
+    //   var dataList = that.convertDataPointsList(dataPoints);
+    //   dataListList.push(dataList);
+    // });
+    return dataListList;
+  },
 
-
+  // Takes data point collection and returns a list a data points for it
+  convertDataPointsList: function(dataPoints){
+    var dataList = [];
+    dataPoints.fetch({
+      success: function(){
+        dataPoints.each(function(dataPoint){
+          dataList.push([1,2])
+        });
+      }
+    })
+    return dataList;
+  },
 
 // ---------------------------------- Render -----------------------
   render: function(){
+    console.log("in render");
     var svg = d3.select(this.el);
-    var dataset = [
-                  [ 5,     20 ],
-                  [ 480,   90 ],
-                  [ 250,   50 ],
-                  [ 100,   33 ],
-                  [ 330,   95 ],
-                  [ 410,   12 ],
-                  [ 475,   44 ],
-                  [ 25,    67 ],
-                  [ 85,    21 ],
-                  [ 220,   88 ]
-              ];
+    var dataset = this.getData();
+    debugger;
+    // var dataset = [
+    //               [ 5,     20 ],
+    //               [ 480,   90 ],
+    //               [ 250,   50 ],
+    //               [ 100,   33 ],
+    //               [ 330,   95 ],
+    //               [ 410,   12 ],
+    //               [ 475,   44 ],
+    //               [ 25,    67 ],
+    //               [ 85,    21 ],
+    //               [ 220,   88 ]
+    //           ];
 
     var padding = 30
 
