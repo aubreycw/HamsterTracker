@@ -2,18 +2,20 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   template: JST['main_graph'],
 
-  tagName:"div",
-  // tagName:"svg",
+  // tagName:"div",
+  tagName:"svg",
+
+  attributes: {
+    width: 600,
+    height: 400
+  },
 
   className:"main-graph",
 
   nameSpace: "http://www.w3.org/2000/svg",
 
   render: function(){
-    var svg = d3.select("div")
-            .append("svg")
-            .attr("width", 600)
-            .attr("height", 400);
+    var svg = d3.select(this.el);
     var dataset = [
                   [ 5,     20 ],
                   [ 480,   90 ],
@@ -26,6 +28,14 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
                   [ 85,    21 ],
                   [ 220,   88 ]
               ];
+
+    // var xscale = d3.scale.linear();
+    // .domain([0,500])
+    // .range([0,400]);
+
+    // var xscale = d3.scale.linear();
+    // .domain([0,500])
+    // .range([0,400]);
 
     svg.selectAll("circle")
       .data(dataset)
@@ -42,13 +52,6 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       });
 
     return this;
-    // var content = this.template();
-    // svg.html(content);
-    // 
-    // this.$el.attr("id","main-graph");
-    // this.$el.attr("width","600");
-    // this.$el.attr("height","400");
-    // this.$el.html(content);
   },
 
   // Originally from http://nocircleno.com/blog/svg-with-backbone-js/
