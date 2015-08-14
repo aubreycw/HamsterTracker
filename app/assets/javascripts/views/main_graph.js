@@ -31,8 +31,11 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       success: function(){
         dataPoints.each(function(dataPoint){
           var time = dataPoint.time();
-          ids = [dataPoint.get("tracking_attribute_id"), dataPoint.get("id")]
-          dataList.push([time, dataPoint.get("value") ,ids])
+          dataList.push([
+            dataPoint.get("id"), 
+            dataPoint.get("tracking_attribute_id"), 
+            time, 
+            dataPoint.get("value")])
 
           if (!that.minD || that.minD < time){
             that.minD = time
@@ -80,6 +83,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       that.convertDataPointsColl(dataPoints);
       that.getAtrbName(dataPoints);
     });
+    return this;
   },
 
   renderGraphHandler: function(){
@@ -114,11 +118,14 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     return color;
   },
 
-  renderGraph: function(dataList){
-    debugger;
+  renderGraph: function(dataset){
+
+            //0 id, 
+            //1 tracking_attribute_id, 
+            //2 time, 
+            //3 value
+
     var svg = d3.select(this.el);
-    var dataset = dataList;
-    var attrName = dataList[0][3];
     var xpadding = 30;
     var ypadding = this.numAxis*40;
 
@@ -129,7 +136,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     .domain([minD, maxD])
     .range([this.width-ypadding, ypadding]); 
     var yscale = d3.scale.linear()
-    .domain([d3.min(dataset, function(d) { return d[1]; })-1, d3.max(dataset, function(d) { return d[1]; })+1])
+    .domain([d3.min(dataset, function(d) { return d[3]; })-1, d3.max(dataset, function(d) { return d[3]; })+1])
     .range([this.height - xpadding, xpadding]);
 
     var xAxis = d3.svg.axis()
@@ -143,26 +150,26 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     var col = this.randomColor();
 
+    debugger;
     svg.selectAll("circle")
-      .data(dataset)
+      .data(dataset, function(d) { return d[0]; })
       .enter()
       .append("circle")
       .attr("cx", function(d) {
-        return xscale(d[0]);
         debugger;
+        return xscale(d[2]);
       })
       .attr("cy", function(d) {
-        return yscale(d[1]);
+        return yscale(d[3]);
       })
       .attr("r", 5)      
       .attr("data-taId",function(d) {
-        return d[2][0];
+        return d[1];
       })
       .attr("data-dpId",function(d) {
-        return d[2][1];
+        return d[0];
       })
       .attr("fill",col);
-    debugger;
 
     svg.append("g")
       .attr("class", "axis")
