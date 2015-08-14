@@ -8,7 +8,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.width = 800;
     this.height = 500;
     this.legendWidth = 100;
-    HamsterTracker.unshownAttributes = HamsterTracker.unshownAttributes || [1];
+    HamsterTracker.unshownAttributes = HamsterTracker.unshownAttributes || [];
   },
 
   events: {
@@ -107,12 +107,10 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         atrb.fetch({
           success: function(atrbX){
             var atrbId = atrbX.get("id");
-            if (HamsterTracker.unshownAttributes.indexOf(atrbId) < 0){
-              that.atrbColors[atrbId] = that.atrbColors[atrbId] || that.nextColor();
-              that.atrbNamesList.push([atrbX.get("name"),atrbId]);
-              that.toDoNames -= 1;
-              that.renderNamesHandler();
-            }
+            that.atrbColors[atrbId] = that.atrbColors[atrbId] || that.nextColor();
+            that.atrbNamesList.push([atrbX.get("name"),atrbId]);
+            that.toDoNames -= 1;
+            that.renderNamesHandler();
           }
         });
       }
@@ -125,7 +123,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.dataListList = [];
     this.atrbNamesList = [];
     this.toDo = this.dataPointsList.length;
-    this.toDoNames = this.toDo - HamsterTracker.unshownAttributes.length;
+    this.toDoNames = this.toDo;
     this.numAxis = this.toDo - HamsterTracker.unshownAttributes.length;
     this.dataPointsList.forEach(function(dataPoints){
       that.convertDataPointsColl(dataPoints);
@@ -139,6 +137,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       return null;
     }
     this.axisPadding = 40;
+    this.legendPadding = 40;
     var that = this;
     this.dataListList.forEach(function(dataList){
       that.renderGraph(dataList);
@@ -251,6 +250,21 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var ypadding = this.numAxis*40;
 
     svg.append("text")
+      .attr("class", "legend")
+      .attr("font-size", "20px")
+      .attr("data-taId", atrbName[1])
+      .attr("x", this.width*0.9)
+      .attr("y", this.legendPadding + 10)
+      .text("" + atrbName[0])
+      .attr("fill", this.atrbColors[atrbName[1]]);
+
+    this.legendPadding += 40;
+
+    if (HamsterTracker.unshownAttributes.indexOf(atrbName[1]) > -1){
+      return this;
+    }
+
+    svg.append("text")
       .attr("class", "x label")
       .attr("x", this.width*0.5)
       .attr("y", this.height - xpadding)
@@ -266,14 +280,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .text("" + atrbName[0])
       .attr("fill", this.atrbColors[atrbName[1]]);
 
-    svg.append("text")
-      .attr("class", "legend")
-      .attr("font-size", "20px")
-      .attr("data-taId", atrbName[1])
-      .attr("x", this.width*0.9)
-      .attr("y", this.axisPadding + 10)
-      .text("" + atrbName[0])
-      .attr("fill", this.atrbColors[atrbName[1]]);
+
 
       this.axisPadding += 40;
       return this;
