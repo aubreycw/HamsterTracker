@@ -1,6 +1,7 @@
 HamsterTracker.Views.DataPointForm = Backbone.View.extend({
   events: {
-    'submit form': 'submit'
+    'submit form': 'submit',
+    'click .delete': "destroySubject"
   },
 
   template: JST['dataPoint/form'],
@@ -9,9 +10,18 @@ HamsterTracker.Views.DataPointForm = Backbone.View.extend({
     this.listenTo(this.model, 'sync', this.render);
   },
   render: function () {
+    // debugger;
     var content = this.template({dataPoint: this.model});
     this.$el.html(content);
     return this;
+  },
+
+  destroySubject: function(event){
+    this.model.destroy();
+    this.remove();
+    Backbone.history.navigate('#/tracking_subjects/' + 
+      this.model.trackingSubjectId, 
+      { trigger: true });
   },
 
   submit: function (event) {

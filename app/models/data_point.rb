@@ -2,16 +2,24 @@
 #
 # Table name: data_points
 #
-#  id         :integer          not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                    :integer          not null, primary key
+#  tracking_attribute_id :integer          not null
+#  value                 :float            not null
+#  time                  :datetime         not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  notes                 :text
+#  tracking_subject_id   :integer
 #
 
 class DataPoint < ActiveRecord::Base
-  validates :tracking_attribute, :value, :time, presence: true
+  validates :tracking_attribute, :tracking_subject, :value, :time, presence: true
   validate :value_is_valid
 
   belongs_to :tracking_attribute
+
+  belongs_to :tracking_subject
+
 
   def value_is_valid
     value = self.value

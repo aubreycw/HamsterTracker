@@ -4,6 +4,7 @@ class Api::DataPointsController < ApplicationController
   def create
     dpparams = data_point_params
     dpparams["tracking_attribute_id"] = params[:tracking_attribute_id]
+    dpparams["tracking_subject_id"] = params[:tracking_subject_id]
     puts("............................")
     puts(dpparams[:value])
     puts("............................")

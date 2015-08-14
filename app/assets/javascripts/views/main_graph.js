@@ -7,9 +7,14 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.height = 400;
   },
 
+  events: {
+    "click circle": "openCircle",
+    "mouseenter circle": "highlightCircle",
+    "mouseleave circle": "unHighlightCircle"
+  },
+
   template: JST['main_graph'],
 
-  // tagName:"div",
   tagName:"svg",
 
   attributes: {
@@ -20,6 +25,30 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   className:"main-graph",
 
   nameSpace: "http://www.w3.org/2000/svg",
+
+// ---------------------------------- Events ------------------------
+
+  openCircle: function(event){
+    Backbone.history.navigate(
+      "#/tracking_subjects/" + 
+      event.currentTarget.dataset.tsId + 
+      "/tracking_attributes/" + 
+      event.currentTarget.dataset.taId + 
+      "/data_points/" +
+      event.currentTarget.dataset.dpId +
+      "/edit", 
+      { trigger: true }
+      );
+  },
+
+  highlightCircle: function(event){
+    this.circleColor = $(event.currentTarget).attr("fill")
+    $(event.currentTarget).attr("fill", "black");
+  },
+
+  unHighlightCircle: function(event){
+    $(event.currentTarget).attr("fill", this.circleColor);
+  },
 
 // ---------------------------------- Setup ------------------------
 
@@ -35,7 +64,9 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
             dataPoint.get("id"), 
             dataPoint.get("tracking_attribute_id"), 
             time, 
-            dataPoint.get("value")])
+            dataPoint.get("value"),
+            dataPoint.get("tracking_subject_id")
+            ])
 
           if (!that.minD || that.minD < time){
             that.minD = time
@@ -123,7 +154,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
             //0 id, 
             //1 tracking_attribute_id, 
             //2 time, 
-            //3 value
+            //3 value,
+            //4 tracking_subject_id
 
     var svg = d3.select(this.el);
     var xpadding = 30;
@@ -150,13 +182,11 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     var col = this.randomColor();
 
-    debugger;
     svg.selectAll("circle")
       .data(dataset, function(d) { return d[0]; })
       .enter()
       .append("circle")
       .attr("cx", function(d) {
-        debugger;
         return xscale(d[2]);
       })
       .attr("cy", function(d) {
@@ -168,6 +198,9 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       })
       .attr("data-dpId",function(d) {
         return d[0];
+      })
+      .attr("data-tsId",function(d) {
+        return d[4];
       })
       .attr("fill",col);
 
