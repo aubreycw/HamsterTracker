@@ -6,6 +6,8 @@ HamsterTracker.Views.SmallDataPointForm = Backbone.View.extend({
   template: JST['dataPoint/form_small'],
 
   initialize: function(options) {
+    this.listenTo
+    this.makeEntry = options.makeEntry;
     this.attributeName = options.attributeName;
     this.attributeNotes = options.attributeNotes;
     this.listenTo(this.model, 'sync', this.render);
@@ -41,13 +43,22 @@ HamsterTracker.Views.SmallDataPointForm = Backbone.View.extend({
     this.model.save({}, {
       success: function () {
         that.collection.add(that.model);
+        HamsterTracker.formsToSubmit -= 1;
+        if (HamsterTracker.formsToSubmit === 0){
+          that.makeEntry.trigger("trySubmitNow");
+        }
       },
 
       error: function (model, response) {
+        HamsterTracker.formsToSubmit -= 1;
         console.log("Errors!");
+        HamsterTracker.makeEntryErrors.push(response.responseText);
         $('.errors').empty();
         var $li = $('<li>' + response.responseText + '</li>');
         $('.errors').append($li);
+        if (HamsterTracker.formsToSubmit === 0){
+          that.makeEntry.trigger("trySubmitNow");
+        }
       }
     });
   }

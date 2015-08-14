@@ -8,6 +8,8 @@ window.HamsterTracker = {
     HamsterTracker.subjects.fetch()
     // { reset: true }
     HamsterTracker.unshownAttributes = []
+    HamsterTracker.makeEntryErrors = []
+    HamsterTracker.formsToSubmit = 0
     var indexView = new HamsterTracker.Views.SubjectsIndex({
       collection: HamsterTracker.subjects
     });

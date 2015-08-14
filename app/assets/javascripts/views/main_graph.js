@@ -65,10 +65,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     } else {
       HamsterTracker.unshownAttributes.splice(index, 1)
     }
-    Backbone.history.navigate(
-      "#/tracking_subjects/" + this.tsId,
-      { trigger: true }
-      );
+    this.$el.empty();
+    this.render();
   },
 
 // ---------------------------------- Setup ------------------------
@@ -167,6 +165,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     }
     this.axisPadding = 40;
     var that = this;
+    this.atrbNamesList.sort();
     this.atrbNamesList.forEach(function(atrbName){
       that.renderNames(atrbName);
     });

@@ -1,11 +1,16 @@
 HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
   events: {
-    'click .submitButton': 'submit'
+    'click .submitButton': 'submit',
+    'trySubmitNow': 'trySubmit'
   },
 
   template: JST['make_entry'],
 
   initialize: function(options) {
+    this.on( "trySubmitNow", this.trySubmit.bind(this));
+    // this.listenTo(this, "trySubmitNow", this.trySubmit)
+    this.formsToSubmit = 0
+    HamsterTracker.formsToSubmit = 0;
     this.trackingSubjectId = options.trackingSubjectId
     this.trackingSubjectName = options.trackingSubjectName
     var that = this;
@@ -20,6 +25,8 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
   },
 
   addFormSubview: function (attribute) {
+    HamsterTracker.formsToSubmit += 1;
+    this.formsToSubmit += 1;
     var collection = new HamsterTracker.Collections.DataPoints({
       trackingSubjectId: attribute.get("tracking_subject_id"), 
       trackingAttributeId: attribute.get("id")
@@ -34,7 +41,8 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
       model: model, 
       collection: collection,
       attributeName: attribute.escape("name"),
-      attributeNotes: attribute.escape("notes")
+      attributeNotes: attribute.escape("notes"),
+      makeEntry: this
     });
     this.addSubview("div.formsList", attributeForm);
   },
@@ -48,6 +56,16 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
     return this;
   },
 
+  trySubmit: function(){
+    if (HamsterTracker.makeEntryErrors.length === 0){
+      Backbone.history.navigate('#/tracking_subjects/'+this.trackingSubjectId, { trigger: true });
+      return this;
+    }
+    HamsterTracker.formsToSubmit = this.formsToSubmit; 
+    HamsterTracker.makeEntryErrors = [];
+    return this;
+  },
+
   submit: function (event) {
     event.preventDefault();
     timeDate = this.$el.find(".timeInput")[0].value
@@ -57,8 +75,7 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
       formView.setTimeDate(timeDate);
       formView.submitForm();
     });
-
-    Backbone.history.navigate('#/tracking_subjects/'+this.trackingSubjectId, { trigger: true });
+    return this;
   }
 
 });
