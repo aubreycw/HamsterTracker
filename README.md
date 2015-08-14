@@ -18,7 +18,7 @@ Hamster Tracker is a general tracking app, which makes understanding the relatio
 - [x] Choose range and type of attributes (weight is a float, shinyness is an int from 0 to 5)
 - [x] Enter data points
 - [x] View a graph of each tracking subject (against time)
-- [ ] Change which attributes are displayed on the graph
+- [x] Change which attributes are displayed on the graph
 - [ ] View a table of correlations for each tracking subject
 - [ ] Choose which other users can view and add data to their tracking subjects
 
