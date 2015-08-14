@@ -12,6 +12,7 @@ HamsterTracker.Views.SmallDataPointForm = Backbone.View.extend({
   },
 
   submitForm: function (){
+    console.log("in submit form");
     this.trigger("submitForm");
   },
 
@@ -22,10 +23,12 @@ HamsterTracker.Views.SmallDataPointForm = Backbone.View.extend({
   },
 
   setTimeDate: function (value){
+    console.log("Setting time date")
     this.timeDate = value;
   },
 
   submit: function () {
+    console.log("Submitting")
     var attrs = this.$el.find("form").serializeJSON();
     attrs["data_point"]["time"] = this.timeDate;
 

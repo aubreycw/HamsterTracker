@@ -19,7 +19,8 @@ window.HamsterTracker = {
     });
 
 
-    // Backbone.history.stop();
+    //Less distressed by refresh if we stop history before starting
+    Backbone.history.stop();
     Backbone.history.start();
   }
 };

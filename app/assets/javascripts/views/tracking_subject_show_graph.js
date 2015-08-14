@@ -12,14 +12,14 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
             trackingSubjectId: attribute.get("tracking_subject_id"), 
             trackingAttributeId: attribute.get("id")
           });
-        dataPoints.fetch();
         dataPointsList.push(dataPoints);
       });
+
       var graph = new HamsterTracker.Views.MainGraph({
         collection: attributes,
-        dataPointsList: dataPointsList
+        dataPointsList: dataPointsList,
       });
-      console.log("adding subview");
+
       that.addSubview("div.attributes-list", graph);
       }
     });

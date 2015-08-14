@@ -30,10 +30,21 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     dataPoints.fetch({
       success: function(){
         dataPoints.each(function(dataPoint){
+          var time = dataPoint.time();
           ids = [dataPoint.get("tracking_attribute_id"), dataPoint.get("id")]
-          dataList.push([dataPoint.time(),dataPoint.get("value"),ids])
+          dataList.push([time,dataPoint.get("value"),ids])
+
+          if (!that.minD || that.minD < time){
+            that.minD = time
+          }
+
+          if (!that.maxD || that.maxD > time){
+            that.maxD = time
+          }
         });
-        that.renderGraph(dataList);
+        that.toDo -= 1;
+        that.dataListList.push(dataList);
+        that.renderGraphHandler();
       }
     })
   },
@@ -41,17 +52,23 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 // ---------------------------------- Render -----------------------
   render: function(){
     var that = this;
+    this.dataListList = [];
+    this.toDo = this.dataPointsList.length;
     this.dataPointsList.forEach(function(dataPoints){
       that.convertDataPointsColl(dataPoints);
     });
-    // this.convertDataPointsColl(this.dataPointsList[0]);
   },
 
-  // Take in dataListList
-  // For each list:
-    // add circles to graph (choose random color)
-    // add axis to "axisList"
-  // put each axis on graph
+  renderGraphHandler: function(){
+    if (this.toDo > 0){
+      return null;
+    }
+    var that = this;
+    this.dataListList.forEach(function(dataList){
+      that.renderGraph(dataList);
+    });
+  },
+
 
   randomColor: function () {
     var color = "#";
@@ -66,10 +83,13 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var dataset = dataList;
     var padding = 30
 
-    // var format = d3.time.format("%Y-%m-%dT%H:%M:%SZ");
+    var minD = this.minD;
+    var maxD = this.maxD;
 
+    // var minD = new Date("2015-07-29T03:03:00.000Z");
+    // var maxD = new Date("2015-08-16T03:03:00.000Z");
     var xscale =  d3.time.scale()
-    .domain([d3.min(dataset, function(d) { return d[0]; }), d3.max(dataset, function(d) { return d[0]; })])
+    .domain([minD, maxD])
     .range([padding, this.width-padding]);
 
     var yscale = d3.scale.linear()
