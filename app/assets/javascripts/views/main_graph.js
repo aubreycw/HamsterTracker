@@ -32,7 +32,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         dataPoints.each(function(dataPoint){
           var time = dataPoint.time();
           ids = [dataPoint.get("tracking_attribute_id"), dataPoint.get("id")]
-          dataList.push([time,dataPoint.get("value"),ids])
+          dataList.push([time, dataPoint.get("value") ,ids , dataPoint.attrName()])
 
           if (!that.minD || that.minD < time){
             that.minD = time
@@ -83,6 +83,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   renderGraph: function(dataList){
     var svg = d3.select(this.el);
     var dataset = dataList;
+    var attrName = dataList[0][3];
     var xpadding = 30;
     var ypadding = this.numAxis*40;
 
@@ -135,11 +136,10 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     svg.append("text")
       .attr("class", "y label")
-      .attr("x", -this.width*0.25)
-      .attr("y", this.axisPadding - 30)
-      // .attr("dy", "0em")
+      .attr("x", -(this.width - ypadding)*0.45)
+      .attr("y", this.axisPadding + 10)
       .attr("transform", "rotate(-90)")
-      .text("Attribute 1");
+      .text("" + attrName);
 
 
 

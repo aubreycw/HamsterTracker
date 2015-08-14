@@ -6,12 +6,16 @@ HamsterTracker.Models.DataPoint = Backbone.Model.extend({
   initialize: function(options){
     this.trackingSubjectId = options.trackingSubjectId;
     this.trackingAttributeId = options.trackingAttributeId;
-    // this.urlRoot = 'api/tracking_subjects/'+options.trackingSubjectId+"/tracking_attributes/"+options.trackingAttributeId+"/data_points"
+    this.trackingAttributeName = options.trackingAttributeName;
   },
 
   time: function() {
     return new Date(this.get("time"));
-  }
-  
-  // collection: HamsterTracker.Collections.DataPoints
+  },
+
+  attrName: function(){
+    return this.get("trackingAttributeName");
+  },
+
+  collection: HamsterTracker.Collections.DataPoints
 });
