@@ -9,7 +9,7 @@ HamsterTracker.Views.SubjectShow = Backbone.CompositeView.extend({
         var attributesList = new HamsterTracker.Views.AttributesIndex({
           collection: attributes
         });
-        that.addSubview("div.attributes-list", attributesList);
+        that.addSubview("div.graph", attributesList);
         }
     });
   },

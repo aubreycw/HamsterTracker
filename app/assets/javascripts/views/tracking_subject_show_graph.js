@@ -20,7 +20,7 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
         dataPointsList: dataPointsList,
       });
 
-      that.addSubview("div.attributes-list", graph);
+      that.addSubview("div.graph", graph);
       }
     });
   },

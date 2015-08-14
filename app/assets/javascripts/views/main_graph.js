@@ -191,7 +191,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   },
 
-  COLORS: ["#7F8199", "#8FBE00", "#E4E391", "#F8B195", "DE92A3"],
+  COLORS: ["#7F8199", "#8FBE00", "#E4E391", "#F8B195", "#DE92A3"],
 
   nextColor: function() {
     this.colorLoc += 1;
