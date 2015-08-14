@@ -5,8 +5,9 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.dataPointsList = options.dataPointsList;
     this.atrbColors = [];
     var that = this;
-    this.width = 700;
-    this.height = 400;
+    this.width = 800;
+    this.height = 500;
+    this.legendWidth = 100
   },
 
   events: {
@@ -20,8 +21,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   tagName:"svg",
 
   attributes: {
-    width: 700,
-    height: 400,
+    width: 900,
+    height: 500
   },
 
   className:"main-graph",
@@ -47,24 +48,6 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var circle = $(event.currentTarget);
     this.circleColor = circle.attr("fill")
     circle.attr("fill", "black");
-
-    // var svg = d3.select(this.el);
-
-    // var dataset = [[976,1,1,1,1],[977,1,1,1,1]]
-    // debugger;
-    // svg.selectAll("text")
-    //   .data(dataset, function(d) { return d[0]; })
-    //   .enter()
-    //   .append("text")
-    //   .text(function(d) {
-    //     debugger;
-    //     return "" + d[0] + "thing";
-    //   })
-    //   .attr("x", circle.attr("cx"))
-    //   .attr("y", circle.attr("cy"))
-    //   .attr("font-family", "sans-serif")
-    //   .attr("font-size", "11px")
-    //   .attr("fill", "red");
   },
 
   unHighlightCircle: function(event){
@@ -196,7 +179,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var xpadding = 30;
     var ypadding = this.numAxis*40;
 
-    var minD = this.minD;
+    var minD = this.minD
     var maxD = this.maxD;
 
     var xscale =  d3.time.scale()
@@ -271,9 +254,18 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     svg.append("text")
       .attr("class", "y label")
-      .attr("x", -(this.width - ypadding)*0.45)
+      .attr("x", -(this.width - ypadding)*0.3)
       .attr("y", this.axisPadding + 10)
       .attr("transform", "rotate(-90)")
+      .text("" + atrbName[0])
+      .attr("fill", this.atrbColors[atrbName[1]]);
+
+    svg.append("text")
+      .attr("class", "legend")
+      .attr("font-size", "30px")
+      .attr("data-taId", atrbName[1])
+      .attr("x", this.width*0.9)
+      .attr("y", this.axisPadding + 10)
       .text("" + atrbName[0])
       .attr("fill", this.atrbColors[atrbName[1]]);
 
