@@ -76,6 +76,7 @@ I will change bootstrap/css/javascript files to make the app more attractive, an
 - [ ] View attributes graphed against other attributes (instead of time)
 - [ ] Email verification
 - [ ] Users can set alerts
+- [ ] Users can choose color for each attribute
 
 [phase-one]: ./docs/phases/phase1.md
 [phase-two]: ./docs/phases/phase2.md
