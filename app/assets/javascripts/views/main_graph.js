@@ -4,6 +4,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.colorLoc = -1;
     this.dataPointsList = options.dataPointsList;
     this.atrbColors = [];
+    this.shakeOn = true;
     var that = this;
     this.width = 800;
     this.height = 500;
@@ -16,7 +17,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     "click circle": "openCircle",
     "mouseenter circle": "highlightCircle",
     "mouseleave circle": "unHighlightCircle",
-    "click .legend": "toggleAttribute"
+    "click .legend": "toggleAttribute",
+    "click .shake-toggle": "toggleShake"
   },
 
   template: JST['main_graph'],
@@ -65,6 +67,12 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     } else {
       HamsterTracker.unshownAttributes.splice(index, 1)
     }
+    this.$el.empty();
+    this.render();
+  },
+
+  toggleShake: function(event){
+    this.shakeOn = !this.shakeOn;
     this.$el.empty();
     this.render();
   },
@@ -154,6 +162,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.axisPadding = 40;
     this.legendPadding = 40;
     var that = this;
+    this.dataListList.sort();
     this.dataListList.forEach(function(dataList){
       that.renderGraph(dataList);
     });
@@ -169,6 +178,17 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.atrbNamesList.forEach(function(atrbName){
       that.renderNames(atrbName);
     });
+
+    // add the "shake" button
+    var svg = d3.select(this.el);
+    svg.append("text")
+      .attr("class", "shake-toggle")
+      .attr("font-size", "15px")
+      .attr("x", this.width - 90)
+      .attr("y", this.height - 25)
+      .text("Toggle shake")
+      .attr("fill", "black");
+
   },
 
   COLORS: ["#7F8199", "#8FBE00", "#E4E391", "#F8B195", "DE92A3"],
@@ -184,6 +204,13 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       color += "0123456789ABCDEF"[Math.floor((Math.random() * 16))];
     }
     return color;
+  },
+
+  shake: function(x){
+    if (this.shakeOn){
+      return x*(1+(Math.random()*2-1)*0.005);
+    }
+    return x;
   },
 
   renderGraph: function(dataset){
@@ -222,15 +249,16 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     var col = this.atrbColors[dataset[0][1]];
 
+    var that = this;
     svg.selectAll("circle")
       .data(dataset, function(d) { return d[0]; })
       .enter()
       .append("circle")
       .attr("cx", function(d) {
-        return xscale(d[2]);
+        return that.shake(xscale(d[2]));
       })
       .attr("cy", function(d) {
-        return yscale(d[3]);
+        return that.shake(yscale(d[3]));
       })
       .attr("r", 5)      
       .attr("data-taId",function(d) {
@@ -243,6 +271,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         return d[4];
       })
       .attr("fill",col)
+      // .attr("opacity",0.5)
       .append("svg:title")
       .text(function(d) { return d[5]; });
 
