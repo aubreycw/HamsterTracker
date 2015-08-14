@@ -5,7 +5,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.dataPointsList = options.dataPointsList;
     this.atrbColors = [];
     var that = this;
-    this.width = 600;
+    this.width = 700;
     this.height = 400;
   },
 
@@ -20,7 +20,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   tagName:"svg",
 
   attributes: {
-    width: 600,
+    width: 700,
     height: 400,
   },
 

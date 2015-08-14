@@ -7,6 +7,7 @@ HamsterTracker.Views.SmallDataPointForm = Backbone.View.extend({
 
   initialize: function(options) {
     this.attributeName = options.attributeName;
+    this.attributeNotes = options.attributeNotes;
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this, 'submitForm', this.submit);
   },
@@ -17,7 +18,9 @@ HamsterTracker.Views.SmallDataPointForm = Backbone.View.extend({
   },
 
   render: function () {
-    var content = this.template({dataPoint: this.model, attributeName: this.attributeName});
+    var content = this.template({dataPoint: this.model, 
+      attributeName: this.attributeName,
+      notes: this.attributeNotes});
     this.$el.html(content);
     return this;
   },

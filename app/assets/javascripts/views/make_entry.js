@@ -33,13 +33,16 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
     var attributeForm = new HamsterTracker.Views.SmallDataPointForm({
       model: model, 
       collection: collection,
-      attributeName: attribute.escape("name")
+      attributeName: attribute.escape("name"),
+      attributeNotes: attribute.escape("notes")
     });
     this.addSubview("div.formsList", attributeForm);
   },
 
   render: function () {
-    var content = this.template({trackingSubjectName: this.trackingSubjectName});
+    var content = this.template({
+      trackingSubjectName: this.trackingSubjectName
+    });
     this.$el.html(content);
     this.attachSubviews();
     return this;
