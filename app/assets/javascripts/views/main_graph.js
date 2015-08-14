@@ -32,7 +32,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         dataPoints.each(function(dataPoint){
           var time = dataPoint.time();
           ids = [dataPoint.get("tracking_attribute_id"), dataPoint.get("id")]
-          dataList.push([time, dataPoint.get("value") ,ids , dataPoint.attrName()])
+          dataList.push([time, dataPoint.get("value") ,ids])
 
           if (!that.minD || that.minD < time){
             that.minD = time
@@ -49,14 +49,36 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     })
   },
 
+  getAtrbName: function(dataPoints){
+    var that = this;
+    dataPoints.fetch({
+      success: function(coll){
+        var atrb = new HamsterTracker.Models.Attribute({
+          trackingSubjectId: coll.trackingSubjectId,
+          id: coll.trackingAttributeId
+        });
+        atrb.fetch({
+          success: function(atrbX){
+            that.toDoNames -= 1;
+            that.atrbNamesList.push(atrbX.get("name"));
+            that.renderNamesHandler();
+          }
+        });
+      }
+    });
+  },
+
 // ---------------------------------- Render -----------------------
   render: function(){
     var that = this;
     this.dataListList = [];
+    this.atrbNamesList = [];
     this.toDo = this.dataPointsList.length;
+    this.toDoNames = this.toDo;
     this.numAxis = this.toDo;
     this.dataPointsList.forEach(function(dataPoints){
       that.convertDataPointsColl(dataPoints);
+      that.getAtrbName(dataPoints);
     });
   },
 
@@ -71,6 +93,18 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     });
   },
 
+  renderNamesHandler: function(){
+    if (this.toDoNames > 0){
+      return null;
+    }
+    this.axisPadding = 40;
+    var that = this;
+    this.atrbNamesList.forEach(function(atrbName){
+      that.renderNames(atrbName);
+    });
+  },
+
+
 
   randomColor: function () {
     var color = "#";
@@ -81,6 +115,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   },
 
   renderGraph: function(dataList){
+    debugger;
     var svg = d3.select(this.el);
     var dataset = dataList;
     var attrName = dataList[0][3];
@@ -114,6 +149,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .append("circle")
       .attr("cx", function(d) {
         return xscale(d[0]);
+        debugger;
       })
       .attr("cy", function(d) {
         return yscale(d[1]);
@@ -126,22 +162,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         return d[2][1];
       })
       .attr("fill",col);
-
-
-    svg.append("text")
-      .attr("class", "x label")
-      .attr("x", this.width*0.5)
-      .attr("y", this.height - xpadding)
-      .text("Time");
-
-    svg.append("text")
-      .attr("class", "y label")
-      .attr("x", -(this.width - ypadding)*0.45)
-      .attr("y", this.axisPadding + 10)
-      .attr("transform", "rotate(-90)")
-      .text("" + attrName);
-
-
+    debugger;
 
     svg.append("g")
       .attr("class", "axis")
@@ -155,6 +176,28 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     this.axisPadding += 40;
     return this;
+  },
+
+  renderNames: function(atrbName){
+    var svg = d3.select(this.el);
+    var xpadding = 30;
+    var ypadding = this.numAxis*40;
+
+    svg.append("text")
+      .attr("class", "x label")
+      .attr("x", this.width*0.5)
+      .attr("y", this.height - xpadding)
+      .text("Time");
+
+    svg.append("text")
+      .attr("class", "y label")
+      .attr("x", -(this.width - ypadding)*0.45)
+      .attr("y", this.axisPadding + 10)
+      .attr("transform", "rotate(-90)")
+      .text("" + atrbName);
+
+      this.axisPadding += 40;
+      return this;
   },
 
   // Originally from http://nocircleno.com/blog/svg-with-backbone-js/

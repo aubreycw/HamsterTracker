@@ -88,18 +88,12 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
 // --------------------------------------- Data Points ------------------------------
 
   renderNewDataPoint: function (SbjId, atrbId){
-    var atrbCollection = new HamsterTracker.Collections.Attributes({
-      trackingSubjectId: SbjId
-    });
-    var atrb = atrbCollection.getOrFetch(atrbId);
-    var atrbName = atrb.get("name")
     var collection = new HamsterTracker.Collections.DataPoints({
       trackingSubjectId: SbjId, 
       trackingAttributeId: atrbId});
     var model = new HamsterTracker.Models.DataPoint({
       trackingSubjectId: SbjId, 
-      trackingAttributeId: atrbId, 
-      trackingAttributeName: atrbName});
+      trackingAttributeId: atrbId});
     var view = new HamsterTracker.Views.DataPointForm({
       model: model, 
       collection: collection});

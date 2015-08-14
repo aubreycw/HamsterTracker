@@ -27,5 +27,6 @@ HamsterTracker.Collections.DataPoints = Backbone.Collection.extend({
       });
     }
     return model;
-  }
+  },
+
 })
