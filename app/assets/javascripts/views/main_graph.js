@@ -54,6 +54,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var that = this;
     this.dataListList = [];
     this.toDo = this.dataPointsList.length;
+    this.numAxis = this.toDo;
     this.dataPointsList.forEach(function(dataPoints){
       that.convertDataPointsColl(dataPoints);
     });
@@ -63,6 +64,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     if (this.toDo > 0){
       return null;
     }
+    this.axisPadding = 30;
     var that = this;
     this.dataListList.forEach(function(dataList){
       that.renderGraph(dataList);
@@ -81,20 +83,19 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   renderGraph: function(dataList){
     var svg = d3.select(this.el);
     var dataset = dataList;
-    var padding = 30
+    var xpadding = 30;
+    var ypadding = this.numAxis*30;
 
     var minD = this.minD;
     var maxD = this.maxD;
 
-    // var minD = new Date("2015-07-29T03:03:00.000Z");
-    // var maxD = new Date("2015-08-16T03:03:00.000Z");
     var xscale =  d3.time.scale()
     .domain([minD, maxD])
-    .range([padding, this.width-padding]);
+    .range([ypadding, this.width-ypadding]);
 
     var yscale = d3.scale.linear()
     .domain([d3.min(dataset, function(d) { return d[1]; })-1, d3.max(dataset, function(d) { return d[1]; })+1])
-    .range([this.height - padding, padding]);
+    .range([this.height - xpadding, xpadding]);
 
     var xAxis = d3.svg.axis()
     .scale(xscale)
@@ -127,15 +128,17 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .attr("fill",col);
 
     svg.append("g")
-      .attr("transform", "translate(0,"+(this.height-padding)+")")
+      .attr("transform", "translate(0,"+(this.height-xpadding)+")")
       .attr("class", "axis")
       .call(xAxis)
     ;
 
     svg.append("g")
       .attr("class", "axis")
-      .attr("transform", "translate(" + padding + ",0)")
+      .attr("transform", "translate(" + this.axisPadding + ",0)")
       .call(yAxis);
+
+    this.axisPadding += 30;
     return this;
   },
 
