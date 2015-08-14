@@ -10,7 +10,6 @@ HamsterTracker.Views.DataPointForm = Backbone.View.extend({
     this.listenTo(this.model, 'sync', this.render);
   },
   render: function () {
-    // debugger;
     var content = this.template({dataPoint: this.model});
     this.$el.html(content);
     return this;

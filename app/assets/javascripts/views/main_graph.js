@@ -1,7 +1,9 @@
 HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   initialize: function(options){
+    this.colorLoc = -1;
     this.dataPointsList = options.dataPointsList;
+    this.atrbColors = [];
     var that = this;
     this.width = 600;
     this.height = 400;
@@ -78,6 +80,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     dataPoints.fetch({
       success: function(){
         dataPoints.each(function(dataPoint){
+          var atrbId = dataPoint.get("tracking_attribute_id");
+          that.atrbColors[atrbId] = that.atrbColors[atrbId] || that.nextColor();
           var time = dataPoint.time();
           var notes = "No notes"
           var dpNotes = dataPoint.get("notes")
@@ -118,8 +122,10 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         });
         atrb.fetch({
           success: function(atrbX){
+            var atrbId = atrbX.get("id");
+            that.atrbColors[atrbId] = that.atrbColors[atrbId] || that.nextColor();
             that.toDoNames -= 1;
-            that.atrbNamesList.push(atrbX.get("name"));
+            that.atrbNamesList.push([atrbX.get("name"),atrbId]);
             that.renderNamesHandler();
           }
         });
@@ -164,7 +170,12 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     });
   },
 
+  COLORS: ["#7F8199", "#8FBE00", "#E4E391", "#F8B195", "DE92A3"],
 
+  nextColor: function() {
+    this.colorLoc += 1;
+    return this.COLORS[(this.colorLoc%(this.COLORS.length))]
+  },
 
   randomColor: function () {
     var color = "#";
@@ -181,7 +192,6 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
             //3 value,
             //4 tracking_subject_id
             //5 notes
-
     var svg = d3.select(this.el);
     var xpadding = 30;
     var ypadding = this.numAxis*40;
@@ -206,7 +216,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     .scale(yscale)
     .orient("left");
 
-    var col = this.randomColor();
+    var col = this.atrbColors[dataset[0][1]];
 
     svg.selectAll("circle")
       .data(dataset, function(d) { return d[0]; })
@@ -255,14 +265,17 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .attr("class", "x label")
       .attr("x", this.width*0.5)
       .attr("y", this.height - xpadding)
-      .text("Time");
+      .text("Time")
+      .attr("font-size", "11px")
+      .attr("font-family", "sans-serif");
 
     svg.append("text")
       .attr("class", "y label")
       .attr("x", -(this.width - ypadding)*0.45)
       .attr("y", this.axisPadding + 10)
       .attr("transform", "rotate(-90)")
-      .text("" + atrbName);
+      .text("" + atrbName[0])
+      .attr("fill", this.atrbColors[atrbName[1]]);
 
       this.axisPadding += 40;
       return this;
