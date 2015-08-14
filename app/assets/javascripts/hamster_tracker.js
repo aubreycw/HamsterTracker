@@ -7,6 +7,7 @@ window.HamsterTracker = {
     HamsterTracker.subjects = new HamsterTracker.Collections.Subjects();
     HamsterTracker.subjects.fetch()
     // { reset: true }
+    HamsterTracker.unshownAttributes = []
     var indexView = new HamsterTracker.Views.SubjectsIndex({
       collection: HamsterTracker.subjects
     });

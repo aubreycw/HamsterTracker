@@ -8,13 +8,15 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.width = 800;
     this.height = 500;
     this.legendWidth = 100;
+    this.tsId = null;
     HamsterTracker.unshownAttributes = HamsterTracker.unshownAttributes || [];
   },
 
   events: {
     "click circle": "openCircle",
     "mouseenter circle": "highlightCircle",
-    "mouseleave circle": "unHighlightCircle"
+    "mouseleave circle": "unHighlightCircle",
+    "click .legend": "toggleAttribute"
   },
 
   template: JST['main_graph'],
@@ -53,6 +55,20 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   unHighlightCircle: function(event){
     $(event.currentTarget).attr("fill", this.circleColor);
+  },
+
+  toggleAttribute: function(event){
+    var taId = parseInt(event.currentTarget.dataset.taId);
+    var index = HamsterTracker.unshownAttributes.indexOf(taId)
+    if ( index < 0){
+      HamsterTracker.unshownAttributes.push(taId);
+    } else {
+      HamsterTracker.unshownAttributes.splice(index, 1)
+    }
+    Backbone.history.navigate(
+      "#/tracking_subjects/" + this.tsId,
+      { trigger: true }
+      );
   },
 
 // ---------------------------------- Setup ------------------------
@@ -100,6 +116,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var that = this;
     dataPoints.fetch({
       success: function(coll){
+        that.tsId = coll.trackingSubjectId;
         var atrb = new HamsterTracker.Models.Attribute({
           trackingSubjectId: coll.trackingSubjectId,
           id: coll.trackingAttributeId
