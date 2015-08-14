@@ -64,7 +64,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     if (this.toDo > 0){
       return null;
     }
-    this.axisPadding = 30;
+    this.axisPadding = 40;
     var that = this;
     this.dataListList.forEach(function(dataList){
       that.renderGraph(dataList);
@@ -84,15 +84,14 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var svg = d3.select(this.el);
     var dataset = dataList;
     var xpadding = 30;
-    var ypadding = this.numAxis*30;
+    var ypadding = this.numAxis*40;
 
     var minD = this.minD;
     var maxD = this.maxD;
 
     var xscale =  d3.time.scale()
     .domain([minD, maxD])
-    .range([ypadding, this.width-ypadding]);
-
+    .range([this.width-ypadding, ypadding]); 
     var yscale = d3.scale.linear()
     .domain([d3.min(dataset, function(d) { return d[1]; })-1, d3.max(dataset, function(d) { return d[1]; })+1])
     .range([this.height - xpadding, xpadding]);
@@ -119,7 +118,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         return yscale(d[1]);
       })
       .attr("r", 5)      
-      .attr("data-tsId",function(d) {
+      .attr("data-taId",function(d) {
         return d[2][0];
       })
       .attr("data-dpId",function(d) {
@@ -127,18 +126,34 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       })
       .attr("fill",col);
 
-    svg.append("g")
-      .attr("transform", "translate(0,"+(this.height-xpadding)+")")
-      .attr("class", "axis")
-      .call(xAxis)
-    ;
+
+    svg.append("text")
+      .attr("class", "x label")
+      .attr("x", this.width*0.5)
+      .attr("y", this.height - xpadding)
+      .text("Time");
+
+    svg.append("text")
+      .attr("class", "y label")
+      .attr("x", -this.width*0.25)
+      .attr("y", this.axisPadding - 30)
+      // .attr("dy", "0em")
+      .attr("transform", "rotate(-90)")
+      .text("Attribute 1");
+
+
 
     svg.append("g")
       .attr("class", "axis")
       .attr("transform", "translate(" + this.axisPadding + ",0)")
-      .call(yAxis);
+      .call(yAxis); 
 
-    this.axisPadding += 30;
+    svg.append("g")
+      .attr("transform", "translate(0,"+(this.height-xpadding)+")")
+      .attr("class", "axis")
+      .call(xAxis);
+
+    this.axisPadding += 40;
     return this;
   },
 
