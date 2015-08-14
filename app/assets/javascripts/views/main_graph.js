@@ -7,7 +7,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var that = this;
     this.width = 800;
     this.height = 500;
-    this.legendWidth = 100
+    this.legendWidth = 100;
+    HamsterTracker.unshownAttributes = HamsterTracker.unshownAttributes || [1];
   },
 
   events: {
@@ -106,10 +107,12 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         atrb.fetch({
           success: function(atrbX){
             var atrbId = atrbX.get("id");
-            that.atrbColors[atrbId] = that.atrbColors[atrbId] || that.nextColor();
-            that.toDoNames -= 1;
-            that.atrbNamesList.push([atrbX.get("name"),atrbId]);
-            that.renderNamesHandler();
+            if (HamsterTracker.unshownAttributes.indexOf(atrbId) < 0){
+              that.atrbColors[atrbId] = that.atrbColors[atrbId] || that.nextColor();
+              that.atrbNamesList.push([atrbX.get("name"),atrbId]);
+              that.toDoNames -= 1;
+              that.renderNamesHandler();
+            }
           }
         });
       }
@@ -122,8 +125,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.dataListList = [];
     this.atrbNamesList = [];
     this.toDo = this.dataPointsList.length;
-    this.toDoNames = this.toDo;
-    this.numAxis = this.toDo;
+    this.toDoNames = this.toDo - HamsterTracker.unshownAttributes.length;
+    this.numAxis = this.toDo - HamsterTracker.unshownAttributes.length;
     this.dataPointsList.forEach(function(dataPoints){
       that.convertDataPointsColl(dataPoints);
       that.getAtrbName(dataPoints);
@@ -169,6 +172,9 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   },
 
   renderGraph: function(dataset){
+    if (HamsterTracker.unshownAttributes.indexOf(dataset[0][1]) > -1){
+      return this;
+    }
             //0 id, 
             //1 tracking_attribute_id, 
             //2 time, 
@@ -262,7 +268,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     svg.append("text")
       .attr("class", "legend")
-      .attr("font-size", "30px")
+      .attr("font-size", "20px")
       .attr("data-taId", atrbName[1])
       .attr("x", this.width*0.9)
       .attr("y", this.axisPadding + 10)
