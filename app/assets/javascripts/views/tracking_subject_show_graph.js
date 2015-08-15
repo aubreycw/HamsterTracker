@@ -31,6 +31,7 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     "click .edit": "editSubject",
     'dblclick .editable': 'editField',
     'blur .edit-input': 'saveField',
+    "click .delete": "destroySubject"
   },
 
   editField: function (event) {
@@ -57,5 +58,11 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     this.attachSubviews();
     return this;
   },
+
+  destroySubject: function(event){
+    this.model.destroy();
+    this.remove();
+    Backbone.history.navigate("#",{ trigger: true });
+  }
 
 })

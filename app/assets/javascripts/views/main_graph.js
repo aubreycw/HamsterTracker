@@ -191,7 +191,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   },
 
-  COLORS: ["#7F8199", "#8FBE00", "#E4E391", "#F8B195", "#DE92A3"],
+  COLORS: ["#B9EC47", "#3EC0B7", "#F7B15E", "#FF82C3", "#3EC0B7", "#907A9D"],
 
   nextColor: function() {
     this.colorLoc += 1;
@@ -232,7 +232,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     var xscale =  d3.time.scale()
       .domain([minD, maxD])
-      .range([this.width-ypadding, ypadding]); 
+      .range([this.width - this.legendWidth, ypadding]); 
 
     var yscale = d3.scale.linear()
       .domain([d3.min(dataset, function(d) { return d[3]; })-1, d3.max(dataset, function(d) { return d[3]; })+1])
