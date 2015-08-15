@@ -1,6 +1,21 @@
-<form>
-  <ul class="errors">
-  </ul>
-  <input type="text" name="tracking_subject[name]" value="<%= subject.escape("name") %>">
-  <input type="submit">
-</form>
+
+<div class="row" style="height:100px">
+</div>
+
+<div class="row">
+
+  <div class="col-md-4">
+  </div>
+
+  <div class="col-md-4">
+  <h1>New Subject</h1>
+  <form>
+    <ul class="errors">
+    </ul>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="tracking_subject[name]" value="<%= subject.escape("name") %>">
+    <input type="submit">
+  </form>
+  </div>
+</div>
