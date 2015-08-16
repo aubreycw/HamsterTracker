@@ -17,7 +17,6 @@ HamsterTracker.Views.SubjectShow = Backbone.CompositeView.extend({
   template: JST['tracking_subject_show'],
 
   events: {
-    "click .edit": "editSubject",
     'dblclick .editable': 'editField',
     'blur .edit-input': 'saveField',
   },
@@ -41,11 +40,12 @@ HamsterTracker.Views.SubjectShow = Backbone.CompositeView.extend({
   },
   
   render: function(){
+    debugger;
     var content = this.template({subject: this.model});
     this.$el.html(content);;
     this.attachSubviews();
     return this;
-  },
+  }
 
 })
 

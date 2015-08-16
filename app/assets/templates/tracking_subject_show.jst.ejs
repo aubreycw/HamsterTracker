@@ -12,5 +12,13 @@
 
 <div class="graph"></div>
 
+<button class="toggle_public">
+  <%if (subject.get("public") === "true"){%>
+    Make private
+  <%} else {%>
+    Make public
+  <%}%>
+</button>
+
 <button class="delete">delete</button>
 

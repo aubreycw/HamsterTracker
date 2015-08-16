@@ -4,6 +4,11 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
 
     var dataPointsList = [];
     var that = this;
+    this.model.fetch({
+      success: function(){
+        that.is_public = that.model.get("public");
+      }
+    });
     var attributes = new HamsterTracker.Collections.Attributes({trackingSubjectId: this.model.get("id")});
     attributes.fetch({
       success: function(){
@@ -14,7 +19,6 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
           });
         dataPointsList.push(dataPoints);
       });
-
       var graph = new HamsterTracker.Views.MainGraph({
         collection: attributes,
         dataPointsList: dataPointsList,
@@ -28,7 +32,7 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
   template: JST['tracking_subject_show'],
 
   events: {
-    "click .edit": "editSubject",
+    "click .toggle_public": "togglePublic",
     'dblclick .editable': 'editField',
     'blur .edit-input': 'saveField',
     "click .delete": "destroySubject"
@@ -53,9 +57,11 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
   },
   
   render: function(){
-    var content = this.template({subject: this.model});
-    this.$el.html(content);;
-    this.attachSubviews();
+    debugger;
+    var that = this;
+    var content = that.template({subject: that.model});
+    that.$el.html(content);;
+    that.attachSubviews();
     return this;
   },
 
@@ -63,6 +69,15 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     this.model.destroy();
     this.remove();
     Backbone.history.navigate("#",{ trigger: true });
-  }
+  },
+
+  togglePublic: function (event) {
+    event.preventDefault();
+    this.model.get("public");
+    debugger;
+    this.model.set("public", newVal);
+    this.model.save();
+    this.render();
+  },
 
 })

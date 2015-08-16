@@ -1,6 +1,9 @@
 class Api::TrackingSubjectsController < ApplicationController
   respond_to :json
 
+  before_filter :require_has_read_access!, only: [:show]
+  before_filter :require_has_write_access!, only: [:destroy, :update]
+
   def show
     @tracking_subject = TrackingSubject.find(params[:id])
     render :json => @tracking_subject
@@ -37,6 +40,23 @@ class Api::TrackingSubjectsController < ApplicationController
       render :json => @tracking_subject.errors.full_messages, status: :unprocessable_entity
     end
   end
+
+  def require_has_read_access!
+    @tracking_subject = TrackingSubject.find(params[:id])
+    return true if @tracking_subject.is_public?
+
+    unless current_user && current_user.id == @tracking_subject.user_id
+      redirect_to root_url
+    end
+  end
+
+  def require_has_write_access!
+    @tracking_subject = TrackingSubject.find(params[:id])
+    unless current_user && current_user.id == @tracking_subject.user_id
+      render :json => "User does not have permission to access this", status: :unprocessable_entity
+    end
+  end
+
 
   private
   def tracking_subject_params
