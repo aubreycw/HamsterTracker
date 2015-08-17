@@ -29,6 +29,7 @@ HamsterTracker.Views.AddUser = Backbone.View.extend({
     model.save(attrs, {
       success: function(){
         Backbone.history.navigate('#/tracking_subjects/'+that.tracking_subject_id, { trigger: true });
+        alert("" + attrs["shared_subject"]["name"] + " successfully added");
       },
       error: function(model, response){
          $('.errors').empty();
