@@ -105,7 +105,7 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     var that = this;
     this.collection.fetch({
       success: function(){
-        that.renderMakeUser.bind(that, id)();
+        that.renderMakeEntry.bind(that, id)();
       }
     })
   },
