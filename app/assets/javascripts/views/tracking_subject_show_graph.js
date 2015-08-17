@@ -4,11 +4,7 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
 
     var dataPointsList = [];
     var that = this;
-    this.model.fetch({
-      success: function(){
-        that.is_public = that.model.get("public");
-      }
-    });
+    this.model.fetch();
     var attributes = new HamsterTracker.Collections.Attributes({trackingSubjectId: this.model.get("id")});
     attributes.fetch({
       success: function(){
@@ -57,9 +53,16 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
   },
   
   render: function(){
-    debugger;
     var that = this;
-    var content = that.template({subject: that.model});
+    var is_public = this.model.get("public")
+    if (is_public === null){
+      is_public = true;
+    }
+    // debugger;
+    var content = that.template({
+      subject: that.model,
+      is_public: is_public
+    });
     that.$el.html(content);;
     that.attachSubviews();
     return this;
@@ -73,11 +76,33 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
 
   togglePublic: function (event) {
     event.preventDefault();
-    this.model.get("public");
-    debugger;
-    this.model.set("public", newVal);
-    this.model.save();
-    this.render();
+    var is_public = this.model.get("public")
+    if (is_public || is_public === null || is_public === "true" ){
+      is_public = true;
+    } else {
+      is_public = false;
+    }
+    // var new_public = "true";
+    // if (is_public){
+    //   new_public = "false";
+    // }
+
+    // debugger;
+    // this.model.set("public", !is_public);
+    var that = this;
+    this.is_public = is_public
+    // debugger;
+    this.model.save({"public": !that.is_public}, {
+      success: function(){
+        console.log("saving done");
+        // debugger;
+        that.render();
+      },
+      error: function(){
+        console.log("there was an error");
+        // debugger;
+      }
+      });
   },
 
 })

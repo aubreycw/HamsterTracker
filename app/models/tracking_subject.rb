@@ -12,21 +12,10 @@
 
 class TrackingSubject < ActiveRecord::Base
   validates :user, :name, presence: true
-  attr_reader :public
 
   belongs_to :user
 
   has_many :tracking_attributes
-
-  def getting_info
-    puts "____________"
-    puts "User:"
-    puts self.user_id
-    puts self.user
-    puts ""
-    puts self.name
-    puts "____________"
-  end
 
   def is_public?
     @public

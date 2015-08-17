@@ -42,11 +42,16 @@ class Api::TrackingSubjectsController < ApplicationController
   end
 
   def require_has_read_access!
+    puts "-------------------"
+    puts "requiring read access"
+    puts "-------------------"
+
     @tracking_subject = TrackingSubject.find(params[:id])
     return true if @tracking_subject.is_public?
 
     unless current_user && current_user.id == @tracking_subject.user_id
-      redirect_to root_url
+      puts "NOT GIVING ACCESS"
+      render :json => "User does not have permission to access this", status: :unprocessable_entity
     end
   end
 
@@ -60,6 +65,6 @@ class Api::TrackingSubjectsController < ApplicationController
 
   private
   def tracking_subject_params
-    params.require(:tracking_subject).permit(:name)
+    params.require(:tracking_subject).permit(:name, :public)
   end
 end
