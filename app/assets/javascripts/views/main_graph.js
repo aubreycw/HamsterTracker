@@ -145,6 +145,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var that = this;
     this.dataListList = [];
     this.atrbNamesList = [];
+    this.atrbOrder = []
     this.toDo = this.dataPointsList.length;
     this.toDoNames = this.toDo;
     this.numAxis = this.toDo - HamsterTracker.unshownAttributes.length;
@@ -164,6 +165,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var that = this;
     this.dataListList.sort();
     this.dataListList.forEach(function(dataList){
+      that.atrbOrder.push(dataList[0][1]);
       that.renderGraph(dataList);
     });
   },
@@ -174,11 +176,13 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     }
     this.axisPadding = 40;
     var that = this;
-    this.atrbNamesList.sort();
-    this.atrbNamesList.forEach(function(atrbName){
-      that.renderNames(atrbName);
+    this.atrbOrder.forEach(function (atrbId){
+      that.atrbNamesList.forEach(function(atrbName){
+        if (atrbName[1] === atrbId){
+          that.renderNames(atrbName);
+        }
+      });
     });
-
     // add the "shake" button
     var svg = d3.select(this.el);
     svg.append("text")

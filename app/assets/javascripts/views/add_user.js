@@ -6,8 +6,6 @@ HamsterTracker.Views.AddUser = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    console.log("HERE HERE HERE");
-    debugger;
     this.tracking_subject_name = options.tracking_subject_name
     this.tracking_subject_id = options.tracking_subject_id
   },
