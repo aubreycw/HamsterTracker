@@ -29,6 +29,7 @@ class Api::TrackingSubjectsController < ApplicationController
   def index
     user = current_user
     @tracking_subjects = user.tracking_subjects
+    @accessible_subjects = user.accessible_subjects
     render :json => @tracking_subjects
   end
 
