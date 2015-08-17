@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814183819) do
+ActiveRecord::Schema.define(version: 20150817172016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,14 @@ ActiveRecord::Schema.define(version: 20150814183819) do
     t.datetime "updated_at",            null: false
     t.text     "notes"
     t.integer  "tracking_subject_id"
+  end
+
+  create_table "shared_subjects", force: :cascade do |t|
+    t.integer  "user_id",                            null: false
+    t.integer  "tracking_subject_id",                null: false
+    t.boolean  "write_access",        default: true
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   create_table "tracking_attributes", force: :cascade do |t|

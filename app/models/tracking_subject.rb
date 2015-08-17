@@ -17,6 +17,10 @@ class TrackingSubject < ActiveRecord::Base
 
   has_many :tracking_attributes
 
+  has_many :shared_subjects
+
+  has_many :allowed_users, :through => :shared_subjects, :source => :user
+
   def is_public?
     @public
   end

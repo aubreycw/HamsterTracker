@@ -23,11 +23,6 @@ class DataPoint < ActiveRecord::Base
 
   def value_is_valid
     value = self.value
-    puts("-------------------")
-    puts(value)
-    puts(value.to_f)
-    puts(value.to_f == value)
-    puts("-------------------")
     unless value.to_f == value
       errors[:value] << "is not a number"
       return true

@@ -1,0 +1,14 @@
+<h4>Give user access to <%=name%></h4>
+
+<form>
+  <label for="name">Username:</label>
+  <input type="text" id="name" name="shared_subject[name]">
+
+  <br>
+
+  <label for="can_write">Allow this user to add/edit data:</label>
+  <input type="checkbox" name="shared_subject[has_write_access]" id="can_write" value="true">
+  <br>
+
+  <input type="submit">
+</form>

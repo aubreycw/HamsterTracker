@@ -14,13 +14,24 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     'tracking_subjects/:id/tracking_attributes/:atrbId/edit':  'renderEditAttribute',
     'tracking_subjects/:id/edit': 'renderEditSubject',
     'tracking_subjects/:id/make_entry': 'renderMakeEntry',
+    'tracking_subjects/:id/add_user': 'renderAddUser',
     'tracking_subjects/:id': 'renderShowSubjectGraph',
     // 'tracking_subjects/:id': 'renderShowSubject',
     'graphTest': 'renderGraph'
   },
 
-// --------------------------------------- Subjects ------------------------------
+// --------------------------------------- AddUser ------------------------------
 
+  renderAddUser: function(id){
+    var subject = this.collection.getOrFetch(id);
+    var view = new HamsterTracker.Views.AddUser({
+      tracking_subject_name: subject.escape("name"),
+      tracking_subject_id: id
+    });
+    this._swapView(view);
+  },
+
+// --------------------------------------- Subjects ------------------------------
 
   renderIndexSubject: function(){
     this.collection.fetch();
@@ -29,6 +40,7 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   },
 
   renderShowSubject: function(id){
+    this.collection.fetch();
     var model = this.collection.getOrFetch(id);
     var view = new HamsterTracker.Views.SubjectShow({model: model});
     this._swapView(view)

@@ -18,7 +18,11 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6, allow_nil: true }
   attr_reader :password
 
+  has_many :shared_subjects
+
   has_many :tracking_subjects
+
+  has_many :accessible_subjects, :through => :shared_subjects, :source => :tracking_subject
 
   def self.find_by_credentials(username, password)
     user = User.find_by({username: username})
