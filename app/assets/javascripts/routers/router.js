@@ -12,15 +12,23 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     'tracking_subjects/:sbjId/tracking_attributes/:atrbId/data_points/:dtpId/edit' : 'renderEditDataPoint',
     'tracking_subjects/:id/tracking_attributes/new':  'renderNewAttribute',
     'tracking_subjects/:id/tracking_attributes/:atrbId/edit':  'renderEditAttribute',
-    'tracking_subjects/:id/edit': 'renderEditSubject',
+    'tracking_subjects/:id/edit': 'startEditSubject',
     'tracking_subjects/:id/make_entry': 'renderMakeEntry',
-    'tracking_subjects/:id/add_user': 'renderAddUser',
+    'tracking_subjects/:id/add_user': 'startAddUser',
     'tracking_subjects/:id': 'renderShowSubjectGraph',
     // 'tracking_subjects/:id': 'renderShowSubject',
     'graphTest': 'renderGraph'
   },
 
 // --------------------------------------- AddUser ------------------------------
+  startAddUser: function(id){
+    var that = this;
+    this.collection.fetch({
+      success: function(){
+        that.renderAddUser.bind(that, id)();
+      }
+    })
+  },
 
   renderAddUser: function(id){
     var subject = this.collection.getOrFetch(id);
@@ -44,6 +52,7 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
     var model = this.collection.getOrFetch(id);
     var view = new HamsterTracker.Views.SubjectShow({model: model});
     this._swapView(view)
+
   },
 
   renderNewSubject: function(){
@@ -53,6 +62,15 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
       model: model, 
       collection: this.collection});
     this._swapView(view);
+  },
+
+  startEditSubjectUser: function(id){
+    var that = this;
+    this.collection.fetch({
+      success: function(){
+        that.renderEditSubject.bind(that, id)();
+      }
+    })
   },
 
   renderEditSubject: function(id){
