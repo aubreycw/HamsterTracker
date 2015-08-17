@@ -297,10 +297,15 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var svg = d3.select(this.el);
     var xpadding = 30;
     var ypadding = this.numAxis*40;
+    var fontWeight = "bold";
+    if (HamsterTracker.unshownAttributes.indexOf(atrbName[1]) > -1){
+      fontWeight = "lighter";
+    }
 
     svg.append("text")
       .attr("class", "legend")
       .attr("font-size", "20px")
+      .attr("font-weight", fontWeight)
       .attr("data-taId", atrbName[1])
       .attr("x", this.width*0.9)
       .attr("y", this.legendPadding + 10)
