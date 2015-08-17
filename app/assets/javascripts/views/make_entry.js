@@ -49,7 +49,8 @@ HamsterTracker.Views.MakeEntry = Backbone.CompositeView.extend({
 
   render: function () {
     var content = this.template({
-      trackingSubjectName: this.trackingSubjectName
+      trackingSubjectName: this.trackingSubjectName,
+      trackingSubjectId: this.trackingSubjectId
     });
     this.$el.html(content);
     this.attachSubviews();
