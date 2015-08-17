@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :tracking_subjects, only: [:index, :create, :destroy, :update, :show] do
-      resources :shared_subject, only:[:create, :destroy]
+      resources :shared_subjects, only:[:create, :destroy, :index]
 
       resources :tracking_attributes, only: [:index, :create, :destroy, :update, :show] do
         resources :data_points, only: [:index, :create, :destroy, :update, :show]

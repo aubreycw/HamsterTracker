@@ -42,12 +42,12 @@ class Api::TrackingSubjectsController < ApplicationController
   end
 
   def require_has_read_access!
-    puts "-------------------"
-    puts "requiring read access"
-    puts "-------------------"
-
     @tracking_subject = TrackingSubject.find(params[:id])
     return true if @tracking_subject.is_public?
+
+    @shared_subject = SharedSubject.find_by({tracking_subject_id: params[:id], user_id: current_user.id})
+
+    return true if !!@shared_subject
 
     unless current_user && current_user.id == @tracking_subject.user_id
       puts "NOT GIVING ACCESS"
@@ -56,6 +56,10 @@ class Api::TrackingSubjectsController < ApplicationController
   end
 
   def require_has_write_access!
+    @shared_subject = SharedSubject.find_by({tracking_subject_id: params[:id], user_id: current_user.id})
+
+    return true if !!@shared_subject and @shared_subject.has_write_access?
+
     @tracking_subject = TrackingSubject.find(params[:id])
     unless current_user && current_user.id == @tracking_subject.user_id
       render :json => "User does not have permission to access this", status: :unprocessable_entity
