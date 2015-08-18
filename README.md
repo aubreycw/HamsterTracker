@@ -19,8 +19,8 @@ Hamster Tracker is a general tracking app, which makes understanding the relatio
 - [x] Enter data points
 - [x] View a graph of each tracking subject (against time)
 - [x] Change which attributes are displayed on the graph
-- [ ] View a table of correlations for each tracking subject
-- [ ] Choose which other users can view and add data to their tracking subjects
+- [x] View a table of correlations for each tracking subject
+- [x] Choose which other users can view and add data to their tracking subjects
 
 ## Design Docs
 * [View Wireframes][views]
