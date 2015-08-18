@@ -70,6 +70,7 @@ By the end of this phase users will be able to search for and select other users
 I will change bootstrap/css/javascript files to make the app more attractive, and will check that everything is working before moving on to bonus features.
 
 ### Bonus Features (TBD)
+- [ ] User search (and index of user subjects?)
 - [ ] Linear lines of best fit on graphs
 - [ ] Non linear options for lines of best fit
 - [ ] Automatic choosing of best function for line of best fit
