@@ -165,8 +165,10 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var that = this;
     this.dataListList.sort();
     this.dataListList.forEach(function(dataList){
-      that.atrbOrder.push(dataList[0][1]);
-      that.renderGraph(dataList);
+      if (!(dataList[0] === undefined)){
+        that.atrbOrder.push(dataList[0][1]);
+        that.renderGraph(dataList);
+      }
     });
   },
 
@@ -218,6 +220,11 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   },
 
   renderGraph: function(dataset){
+
+    if (!dataset[0][0]){
+      return this;
+    }
+
     if (HamsterTracker.unshownAttributes.indexOf(dataset[0][1]) > -1){
       return this;
     }

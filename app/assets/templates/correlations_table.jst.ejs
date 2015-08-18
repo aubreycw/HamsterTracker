@@ -1,0 +1,8 @@
+<h4>Correlations:</h4>
+<ul class=correlations_index>
+  <%correlations.each(function(correlation){%>
+    <li>
+      <%=correlation.atrb_x_name%> and <%=correlation.atrb_y_name%> have a correlation of <%=correlation.value%>
+    </li>
+  <%})%>
+</ul>

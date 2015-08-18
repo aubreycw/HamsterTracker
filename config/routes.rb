@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     resources :tracking_subjects, only: [:index, :create, :destroy, :update, :show] do
       resources :shared_subjects, only:[:create, :destroy, :index]
 
+      resources :correlations, only:[:index]
+
       resources :tracking_attributes, only: [:index, :create, :destroy, :update, :show] do
         resources :data_points, only: [:index, :create, :destroy, :update, :show]
       end

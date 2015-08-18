@@ -5,7 +5,9 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     var dataPointsList = [];
     var that = this;
     this.model.fetch();
-    var attributes = new HamsterTracker.Collections.Attributes({trackingSubjectId: this.model.get("id")});
+    var attributes = new HamsterTracker.Collections.Attributes({
+      trackingSubjectId: this.model.get("id")
+    });
     attributes.fetch({
       success: function(){
         attributes.each(function(attribute){
@@ -23,6 +25,18 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
       that.addSubview("div.graph", graph);
       }
     });
+
+    var correlations = new HamsterTracker.Collections.Correlations({
+      trackingSubjectId: this.model.get("id")
+    });
+    correlations.fetch({
+      success: function(){
+        var correlations_table = new HamsterTracker.Views.CorrelationsTable({
+          collection: correlations
+        });
+        that.addSubview("div.correlations-table", correlations_table);
+      }
+    })
   },
 
   template: JST['tracking_subject_show'],
