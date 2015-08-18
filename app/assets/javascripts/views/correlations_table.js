@@ -18,8 +18,8 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
   // }
 
   attributes: {
-    width: 200,
-    height: 200
+    width: 700,
+    height: 400
   },
 
   make_columns: function(){
@@ -69,6 +69,20 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
     return table;
   },
 
+  get_color: function(x){
+    var x = parseFloat(x)
+    colors = ["#FFFF66","#FFFFCC","#FFFFFF","#D4B8D4","#A971A9"]
+    if (isNaN(x)){
+      return colors[Math.floor((colors.length)/2)];
+    }
+    var percent = (x + 1)/2
+    var loc =  Math.floor(colors.length*percent);
+    if (percent == 1){
+      loc = colors.length - 1
+    }
+    return colors[loc];
+  },
+
   render: function(){
     d3.select(this.el).append("table")
     .style("border-collapse", "collapse")
@@ -81,7 +95,7 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
   },
 
   renderTable: function(dataset){
-    
+    var that = this;
     var svg = d3.select(this.el);
 
     svg.selectAll("tr")
@@ -93,8 +107,10 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
     .enter().append("td")
     .style("border", "1px black solid")
     .style("padding", "10px")
+    .style("background-color", function(d){return that.get_color(d);})
     .text(function(d){return d;})
-    .style("font-size", "12px");
+    .style("font-size", "15px")
+    .style("font-color", "black");
   }
 
 })
