@@ -182,9 +182,13 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   },
 
   renderShowSubjectGraph: function(id){
-    var model = this.collection.getOrFetch(id);
-    var view = new HamsterTracker.Views.SubjectShowGraph({model: model});
-    this._swapView(view)
+    var model = this.collection.get(id);
+    if (model){
+      var view = new HamsterTracker.Views.SubjectShowGraph({model: model});
+    } else {
+      var view = new HamsterTracker.Views.NoAccess();
+    }
+    this._swapView(view);
   },
 
 

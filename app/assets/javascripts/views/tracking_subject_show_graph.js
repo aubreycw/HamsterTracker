@@ -6,19 +6,13 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     var attributes = new HamsterTracker.Collections.Attributes({
       trackingSubjectId: this.model.get("id")
     });
-    // debugger;
     attributes.fetch({
       success: function(){
-        // debugger;
         attributes.each(function(attribute){
           that.addDataPoints(dataPointsList, attribute);
       });
       that.addGraph(attributes, dataPointsList);
       that.addCorrelations();
-      },
-      error: function(){
-        // debugger;
-        that.renderNoAccess();
       }
     });
   },
@@ -81,15 +75,9 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     this.model.save();
     this.render();
   },
-
-  renderNoAccess: function(){
-    // debugger;
-    var content = JST['no_access']();
-    this.$el.html(content);
-  },
   
   render: function(){
-    // debugger;
+    debugger;
     var that = this;
     var is_public = this.model.get("public")
     if (is_public === null){

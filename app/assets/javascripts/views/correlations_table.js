@@ -5,18 +5,6 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
 
   template: JST['correlations_table'],
 
-  // render: function(){
-  //   var that = this;
-  //   this.collection.fetch({
-  //     success: function(){
-  //       that.$el.html(that.template({
-  //         correlations: that.collection
-  //       }));
-  //     }
-  //   })
-  //   return this;
-  // }
-
   attributes: {
     width: 700,
     height: 400

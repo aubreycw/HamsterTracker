@@ -16,7 +16,7 @@ class Api::TrackingSubjectsController < ApplicationController
     if @tracking_subject.save
       render :json => @tracking_subject
     else
-      render :json => @tracking_subject.errors.full_messages, status: :unprocessable_entity
+      render :json => @tracking_subject.errors.full_messages, status: :unauthorized
     end
   end
 
@@ -38,7 +38,7 @@ class Api::TrackingSubjectsController < ApplicationController
     if @tracking_subject.update(tracking_subject_params)
       render :json => @tracking_subject
     else
-      render :json => @tracking_subject.errors.full_messages, status: :unprocessable_entity
+      render :json => @tracking_subject.errors.full_messages, status: :unauthorized
     end
   end
 
@@ -52,7 +52,7 @@ class Api::TrackingSubjectsController < ApplicationController
 
     unless current_user && current_user.id == @tracking_subject.user_id
       puts "NOT GIVING ACCESS"
-      render :json => "User does not have permission to access this", status: :unprocessable_entity
+      render :json => "User does not have permission to access this", status: :unauthorized
     end
   end
 
@@ -63,7 +63,7 @@ class Api::TrackingSubjectsController < ApplicationController
 
     @tracking_subject = TrackingSubject.find(params[:id])
     unless current_user && current_user.id == @tracking_subject.user_id
-      render :json => "User does not have permission to access this", status: :unprocessable_entity
+      render :json => "User does not have permission to access this", status: :unauthorized
     end
   end
 

@@ -131,7 +131,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
           success: function(atrbX){
             var atrbId = atrbX.get("id");
             that.atrbColors[atrbId] = that.atrbColors[atrbId] || that.nextColor();
-            that.atrbNamesList.push([atrbX.get("name"),atrbId]);
+            that.atrbNamesList.push([atrbX.get("name"), atrbId, atrbX.get("units")]);
             that.toDoNames -= 1;
             that.renderNamesHandler();
           }
@@ -316,7 +316,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .attr("data-taId", atrbName[1])
       .attr("x", this.width*0.9)
       .attr("y", this.legendPadding + 10)
-      .text("" + atrbName[0])
+      .text(atrbName[0])
       .attr("fill", this.atrbColors[atrbName[1]]);
 
     this.legendPadding += 40;
@@ -335,10 +335,10 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
     svg.append("text")
       .attr("class", "y label")
-      .attr("x", -(this.width - ypadding)*0.3)
+      .attr("x", -(this.width - ypadding)*0.4)
       .attr("y", this.axisPadding + 10)
       .attr("transform", "rotate(-90)")
-      .text("" + atrbName[0])
+      .text(atrbName[0] + " (" + atrbName[2] + ")")
       .attr("fill", this.atrbColors[atrbName[1]]);
 
 
