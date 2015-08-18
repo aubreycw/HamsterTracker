@@ -1,5 +1,8 @@
 class Api::CorrelationsController < ApplicationController
 
+  before_filter :require_has_read_access!, only: [:index]
+
+
   def index
     id = params[:tracking_subject_id]
     tracking_subject = TrackingSubject.find(id)
@@ -80,6 +83,22 @@ class Api::CorrelationsController < ApplicationController
     sd_y = Math.sqrt(sum_y_minus_mu_squared/n)
     sd_x*sd_y
   end
+
+
+  def require_has_read_access!
+    @tracking_subject = TrackingSubject.find(params[:tracking_subject_id])
+    return true if @tracking_subject.is_public?
+
+    @shared_subject = SharedSubject.find_by({tracking_subject_id: params[:id], user_id: current_user.id})
+
+    return true if !!@shared_subject
+
+    unless current_user && current_user.id == @tracking_subject.user_id
+      puts "NOT GIVING ACCESS"
+      render :json => "User does not have permission to access this", status: :unprocessable_entity
+    end
+  end
+
 
 end
 
