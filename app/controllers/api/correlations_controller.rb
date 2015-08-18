@@ -16,7 +16,7 @@ class Api::CorrelationsController < ApplicationController
   end
 
   def get_correlation(atrb_x, atrb_y)
-    related_pairs = get_related_pairs(atrb_x, atry_y)
+    related_pairs = get_related_pairs(atrb_x, atrb_y)
     means = get_averages(related_pairs)
     mean_x = means[0]
     mean_y = means[1]
@@ -32,7 +32,7 @@ class Api::CorrelationsController < ApplicationController
     end
 
     pairs_list = []
-    atrb.y.data_points.each do |data_point|
+    atrb_y.data_points.each do |data_point|
       if !!x_hash[data_point.time]
         pairs_list << [x_hash[data_point.time], data_point]
       end
@@ -45,8 +45,8 @@ class Api::CorrelationsController < ApplicationController
     sum_y = 0
     n = related_pairs.length
     related_pairs.each do |pair|
-      sum_x += pair[0]
-      sum_y += pair[1]
+      sum_x += pair[0].value
+      sum_y += pair[1].value
     end
     [sum_x/n, sum_y/n]
   end
@@ -54,7 +54,7 @@ class Api::CorrelationsController < ApplicationController
   def covariance(related_pairs, mean_x, mean_y)
     sum_cov = 0
     related_pairs.each do |pair|
-      sum_cov += (pair[0]-mean_x)*(pair[1]-mean_y)
+      sum_cov += (pair[0].value-mean_x)*(pair[1].value-mean_y)
     end
 
     sum_cov/related_pairs.length
@@ -65,8 +65,8 @@ class Api::CorrelationsController < ApplicationController
     sum_x_minus_mu_squared = 0
     sum_y_minus_mu_squared = 0
     related_pairs.each do |pair|
-      sum_x_minus_mu_squared += (pair[0] - mean_x)^2
-      sum_y_minus_mu_squared += (pair[1] - mean_y)^2
+      sum_x_minus_mu_squared += (pair[0].value - mean_x)**2
+      sum_y_minus_mu_squared += (pair[1].value - mean_y)**2
     end
 
     sd_x = Math.sqrt(sum_x_minus_mu_squared/n)
@@ -77,6 +77,7 @@ class Api::CorrelationsController < ApplicationController
 end
 
 class Correlation
+  attr_reader :value, :atrb_y_id, :atrb_x_id, :atrb_x_name, :atrb_y_name
 
   def initialize(value, atrb_x_id, atrb_y_id, atrb_x_name, atrb_y_name)
     @value = value

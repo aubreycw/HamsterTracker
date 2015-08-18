@@ -2,7 +2,7 @@
 <ul class=correlations_index>
   <%correlations.each(function(correlation){%>
     <li>
-      <%=correlation.atrb_x_name%> and <%=correlation.atrb_y_name%> have a correlation of <%=correlation.value%>
+      <%=correlation.escape("atrb_x_name")%> and <%=correlation.escape("atrb_y_name")%> have a correlation of <%=correlation.escape("value")%>
     </li>
   <%})%>
 </ul>

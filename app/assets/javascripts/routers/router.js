@@ -165,7 +165,7 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
         that.renderShowSubjectGraph.bind(that, id)();
       }
     })
-  }
+  },
 
   renderShowSubjectGraph: function(id){
     var model = this.collection.getOrFetch(id);
