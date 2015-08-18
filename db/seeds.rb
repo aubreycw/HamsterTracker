@@ -18,23 +18,120 @@ tracking_subjects = TrackingSubject.create!([
   ])
 
 tracking_attributes = TrackingAttribute.create!([
-  {tracking_subject_id: 1, name: "Weight", units: "grams", notes: "Measured once a day", min_val: 0},
-  {tracking_subject_id: 1, name: "Food given", units: "grams", notes: "Grams of dry mix placed in tank (ignore treats)", min_val: 0},
-  {tracking_subject_id: 1, name: "Coat condition", units: "shine", notes: "0 -> very dirty and smells bad \n 1 -> some patches of dirt \n 2-> neutral \n 3 -> shiny and very soft", min_val: 0, max_val: 5, is_float: false}
+  {tracking_subject_id: 1, 
+    name: "Weight", 
+    units: "grams", 
+    notes: "Measured once a day", min_val: 0},
+  {tracking_subject_id: 1, 
+    name: "Food given", 
+    units: "grams", 
+    notes: "Grams of dry mix placed in tank (ignore treats)", 
+    min_val: 0},
+  {tracking_subject_id: 1, 
+    name: "Coat condition", 
+    units: "shine", 
+    notes: "0 -> very dirty and smells bad \n 1 -> some patches of dirt \n 2-> neutral \n 3 -> shiny and very soft", min_val: 0, max_val: 5, 
+    is_float: false},
+  {tracking_subject_id: 1, 
+    name: "Treats given", 
+    units: "number of treats", 
+    notes: "examples: 1 walnut, a few sunflower seeds, a piece of spinach", 
+    min_val: 0, 
+    is_float: false},
   ])
 
-hamsterWeight = TrackingAttribute.find_by({"name" => "Weight"})
-hamsterFood = TrackingAttribute.find_by({"name" => "Food given"})
-hamsterCoat = TrackingAttribute.find_by({"name" => "Coat condition"})
+hamsterSubjectId = TrackingSubject.find_by({"name" => "Hamster Health"}).id
+hamsterWeightId = TrackingAttribute.find_by({"name" => "Weight"}).id
+hamsterFoodId = TrackingAttribute.find_by({"name" => "Food given"}).id
+hamsterCoatId = TrackingAttribute.find_by({"name" => "Coat condition"}).id
+hamsterTreatsId = TrackingAttribute.find_by({"name" => "Treats given"}).id
 
 
 data_points = DataPoint.create!([
-  {tracking_attribute_id: hamsterWeight.id, tracking_subject_id: hamsterWeight.tracking_subject_id, value: 110, notes: "Measured in the evening", time:"2015-08-16T20:00:00.000"},
-  {tracking_attribute_id: hamsterWeight.id, tracking_subject_id: hamsterWeight.tracking_subject_id, value: 111, notes: "Not actually measured yet", time:"2015-08-17T20:00:00.000"},
-  {tracking_attribute_id: hamsterFood.id, tracking_subject_id: hamsterFood.tracking_subject_id, value: 100, notes: "Not actually measured yet", time:"2015-08-17T20:00:00.000"},
-  {tracking_attribute_id: hamsterCoat.id, tracking_subject_id: hamsterCoat.tracking_subject_id, value: 2, notes: "Not actually measured yet", time:"2015-08-17T20:00:00.000"},
-  {tracking_attribute_id: hamsterWeight.id, tracking_subject_id: hamsterWeight.tracking_subject_id, value: 112, notes: "Not actually measured yet", time:"2015-08-18T20:00:00.000"},
-  {tracking_attribute_id: hamsterFood.id, tracking_subject_id: hamsterFood.tracking_subject_id, value: 90, notes: "Not actually measured yet", time:"2015-08-18T20:00:00.000"},
-  {tracking_attribute_id: hamsterCoat.id, tracking_subject_id: hamsterCoat.tracking_subject_id, value: 3, notes: "Not actually measured yet", time:"2015-08-18T20:00:00.000"}
+  {tracking_attribute_id: hamsterWeightId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 111, 
+    time:"2015-08-17T20:00:00.000"},
+  {tracking_attribute_id: hamsterFoodId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 50, 
+    time:"2015-08-17T20:00:00.000"},
+  {tracking_attribute_id: hamsterCoatId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 2, 
+    time:"2015-08-17T20:00:00.000"},
+  {tracking_attribute_id: hamsterTreatsId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 0, 
+    time:"2015-08-17T20:00:00.000"},
+
+  {tracking_attribute_id: hamsterWeightId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 112, 
+    time:"2015-08-18T20:00:00.000"},
+  {tracking_attribute_id: hamsterFoodId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 40, 
+    time:"2015-08-18T20:00:00.000"},
+  {tracking_attribute_id: hamsterCoatId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 1, 
+    time:"2015-08-18T20:00:00.000"},
+  {tracking_attribute_id: hamsterTreatsId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 1, 
+    time:"2015-08-18T20:00:00.000"},
+
+  {tracking_attribute_id: hamsterWeightId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 113, 
+    time:"2015-08-19T20:00:00.000"},
+  {tracking_attribute_id: hamsterFoodId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 30, 
+    time:"2015-08-19T20:00:00.000"},
+  {tracking_attribute_id: hamsterCoatId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 2, 
+    time:"2015-08-19T20:00:00.000"},
+  {tracking_attribute_id: hamsterTreatsId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 2, 
+    time:"2015-08-19T20:00:00.000"},
+
+
+  {tracking_attribute_id: hamsterWeightId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 111, 
+    time:"2015-08-20T20:00:00.000"},
+  {tracking_attribute_id: hamsterFoodId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 50, 
+    time:"2015-08-20T20:00:00.000"},
+  {tracking_attribute_id: hamsterCoatId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 3, 
+    time:"2015-08-20T20:00:00.000"},
+  {tracking_attribute_id: hamsterTreatsId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 0, 
+    time:"2015-08-20T20:00:00.000"},
+
+  {tracking_attribute_id: hamsterWeightId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 110, 
+    time:"2015-08-21T20:00:00.000"},
+  {tracking_attribute_id: hamsterFoodId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 50, 
+    time:"2015-08-21T20:00:00.000"},
+  {tracking_attribute_id: hamsterCoatId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 3, 
+    time:"2015-08-21T20:00:00.000"},
+  {tracking_attribute_id: hamsterTreatsId, 
+    tracking_subject_id: hamsterSubjectId, 
+    value: 1, 
+    time:"2015-08-21T20:00:00.000"},
   ])
   

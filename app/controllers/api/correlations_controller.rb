@@ -9,19 +9,26 @@ class Api::CorrelationsController < ApplicationController
     correlations_list = []
     tracking_attribute_pairs.each do |pair|
       correlation = get_correlation(pair[0], pair[1])
-      correlation.set_subject_id(id)
-      correlations_list << correlation
+      if !!correlation
+        correlation.set_subject_id(id)
+        correlations_list << correlation
+      end
     end
     render :json => correlations_list
   end
 
   def get_correlation(atrb_x, atrb_y)
     related_pairs = get_related_pairs(atrb_x, atrb_y)
+    return nil if related_pairs.length < 2
+
     means = get_averages(related_pairs)
     mean_x = means[0]
     mean_y = means[1]
 
-    value = covariance(related_pairs, mean_x, mean_y)/product_sd(related_pairs, mean_x, mean_y)
+    x_sd_times_y_sd = product_sd(related_pairs, mean_x, mean_y)
+    return nil if x_sd_times_y_sd == 0
+    value = covariance(related_pairs, mean_x, mean_y)/x_sd_times_y_sd
+    value = value.round(2)
     Correlation.new(value, atrb_x.id, atrb_y.id, atrb_x.name, atrb_y.name)
   end
 
@@ -65,8 +72,8 @@ class Api::CorrelationsController < ApplicationController
     sum_x_minus_mu_squared = 0
     sum_y_minus_mu_squared = 0
     related_pairs.each do |pair|
-      sum_x_minus_mu_squared += (pair[0].value - mean_x)**2
-      sum_y_minus_mu_squared += (pair[1].value - mean_y)**2
+      sum_x_minus_mu_squared += (mean_x - pair[0].value)**2
+      sum_y_minus_mu_squared += (mean_y - pair[1].value)**2
     end
 
     sd_x = Math.sqrt(sum_x_minus_mu_squared/n)

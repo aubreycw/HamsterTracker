@@ -34,6 +34,7 @@ class TrackingAttribute < ActiveRecord::Base
 
   def is_correct_type(entry)
     return true if is_float
+    return true if entry == 0
     entry % entry.round == 0
   end
 
