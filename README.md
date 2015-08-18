@@ -75,7 +75,7 @@ I will change bootstrap/css/javascript files to make the app more attractive, an
 - [ ] Non linear options for lines of best fit
 - [ ] Automatic choosing of best function for line of best fit
 - [ ] View attributes graphed against other attributes (instead of time)
-- [ ] Email verification
+- [ ] Email verifgication
 - [ ] Users can set alerts
 - [ ] Users can choose color for each attribute
 
