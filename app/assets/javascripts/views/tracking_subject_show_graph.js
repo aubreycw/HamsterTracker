@@ -13,6 +13,7 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
       });
       that.addGraph(attributes, dataPointsList);
       that.addCorrelations();
+      that.addMoreInfo(attributes);
       }
     });
   },
@@ -41,6 +42,13 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     });
 
     this.addSubview("div.graph", graph);
+  },
+
+  addMoreInfo: function(attributes){
+    var moreInfo = new HamsterTracker.Views.MoreInfo({
+      collection: attributes
+    });
+    this.addSubview("div.more-info", moreInfo);
   },
 
   addCorrelations: function(){
@@ -77,7 +85,6 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
   },
   
   render: function(){
-    debugger;
     var that = this;
     var is_public = this.model.get("public")
     if (is_public === null){

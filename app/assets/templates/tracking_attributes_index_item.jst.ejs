@@ -1,13 +1,7 @@
-<%=attribute.escape("name")%> in units of <%=attribute.escape("units")%>
-
 <a href="#/tracking_subjects/<%=attribute.escape("tracking_subject_id")%>/tracking_attributes/<%=attribute.escape("id")%>/edit">
   edit attribute
 </a>
 
 <button class="delete">delete attribute</button>
 
-<div class="data-points-list"></div>
-
-<a href="#/tracking_subjects/<%=attribute.escape("tracking_subject_id")%>/tracking_attributes/<%=attribute.escape("id")%>/data_points/new">
-  new data point
-</a>
+<%=attribute.escape("name")%> in units of <%=attribute.escape("units")%>
