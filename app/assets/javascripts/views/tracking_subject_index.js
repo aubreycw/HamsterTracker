@@ -1,6 +1,5 @@
 HamsterTracker.Views.SubjectsIndex = Backbone.CompositeView.extend({
   initialize: function(){
-
   this.collection.each(function (subject) {
       this.addSubjectSubview(subject);
     }.bind(this));

@@ -5,6 +5,11 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
 
   template: JST['correlations_table'],
 
+  events: {
+    "click button.more-table": "renderCorrelationsTable",
+    "click button.less-table": "render"
+  },
+
   attributes: {
     width: 700,
     height: 400
@@ -71,7 +76,14 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
     return colors[loc];
   },
 
-  render: function(){
+  render: function(event){
+    var content = this.template();
+    this.$el.html(content)
+    return this;
+  },
+
+  renderCorrelationsTable: function(){
+    this.$el.empty();
     d3.select(this.el).append("table")
     .style("border-collapse", "collapse")
     .style("border", "2px black solid")
@@ -83,7 +95,7 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
   },
 
   renderTable: function(dataset){
-    var that = this;
+    var that= this;
     var svg = d3.select(this.el);
 
     svg.selectAll("tr")
@@ -99,6 +111,8 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
     .text(function(d){return d;})
     .style("font-size", "15px")
     .style("font-color", "black");
+
+    this.$el.prepend(JST["correlations_table_expand"]());
   }
 
 })

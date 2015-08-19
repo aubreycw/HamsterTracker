@@ -4,7 +4,6 @@ HamsterTracker.Collections.Subjects = Backbone.Collection.extend({
   model: HamsterTracker.Models.Subject,
 
   initialize: function(){
-
   },
 
   getOrFetch: function(id){

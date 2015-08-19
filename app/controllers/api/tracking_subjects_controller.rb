@@ -30,6 +30,10 @@ class Api::TrackingSubjectsController < ApplicationController
     user = current_user
     @tracking_subjects = user.tracking_subjects
     @accessible_subjects = user.accessible_subjects
+    puts "IN TRACKING SUBJECTS INDEX"
+    puts @tracking_subjects
+    puts @accessible_subjects
+    puts "---------------------------"
     render :json => (@tracking_subjects + @accessible_subjects).uniq
   end
 

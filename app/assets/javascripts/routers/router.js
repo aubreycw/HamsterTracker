@@ -43,7 +43,8 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   renderIndexSubject: function(){
     this.collection.fetch();
     var view = new HamsterTracker.Views.SubjectsIndex({collection: this.collection});
-    this.$sidebar.html(view.render().$el);
+    var content = view.render().$el
+    this.$sidebar.html(content);
   },
 
   renderNewSubject: function(){
@@ -173,18 +174,29 @@ HamsterTracker.Routers.Router = Backbone.Router.extend({
   },
 
   startShowSubjectGraph: function(id){
-    var that = this;
-    this.collection.fetch({
-      success: function(){
-        that.renderShowSubjectGraph.bind(that, id)();
-      }
+    var users = new HamsterTracker.Collections.UsersWithAccess({
+      trackingSubjectId: id
     })
+
+    var that = this;
+    users.fetch({
+      success: function(){
+        that.collection.fetch({
+          success: function(){
+            that.renderShowSubjectGraph.bind(that, id, users)();
+          }
+        });
+      }
+    });
   },
 
-  renderShowSubjectGraph: function(id){
+  renderShowSubjectGraph: function(id, users){
     var model = this.collection.get(id);
     if (model){
-      var view = new HamsterTracker.Views.SubjectShowGraph({model: model});
+      var view = new HamsterTracker.Views.SubjectShowGraph({
+        model: model,
+        users: users
+      });
     } else {
       var view = new HamsterTracker.Views.NoAccess();
     }

@@ -25,7 +25,7 @@ HamsterTracker.Views.AttributeForm = Backbone.View.extend({
     this.model.save({}, {
       success: function () {
         that.collection.add(that.model);
-        Backbone.history.navigate('#/tracking_subjects/'+that.model.get("tracking_subject_id"), { trigger: true });
+        Backbone.history.navigate('#/tracking_subjects/' + that.model.get("tracking_subject_id"), { trigger: true });
       },
 
       error: function (model, response) {

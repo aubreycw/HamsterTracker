@@ -1,5 +1,6 @@
 HamsterTracker.Views.MoreInfo = Backbone.CompositeView.extend({
   initialize: function(options){
+    this.users = options.users;
   },
 
   events: {
@@ -30,6 +31,12 @@ HamsterTracker.Views.MoreInfo = Backbone.CompositeView.extend({
       collection: this.collection
     });
     this.addSubview("div.attributes-list", attributeListView)
+
+    var userListView = new HamsterTracker.Views.UsersWithAccessIndex({
+      collection: this.users
+    });
+    this.addSubview("div.users-list", userListView)
+
     this.attachSubviews();
   }
 })

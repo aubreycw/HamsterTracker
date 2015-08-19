@@ -1,5 +1,6 @@
 HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
-  initialize: function(){
+  initialize: function(options){
+    this.users = options.users
     this.listenTo(this.model, 'sync destroy', this.render);
     var dataPointsList = [];
     var that = this;
@@ -24,7 +25,8 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     "click .toggle_public": "togglePublic",
     'dblclick .editable': 'editField',
     'blur .edit-input': 'saveField',
-    "click .delete": "destroySubject"
+    "click .delete": "destroySubject",
+    "click .download": "downloadCSV"
   },
 
   addDataPoints: function(dataPointsList, attribute){
@@ -46,7 +48,8 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
 
   addMoreInfo: function(attributes){
     var moreInfo = new HamsterTracker.Views.MoreInfo({
-      collection: attributes
+      collection: attributes,
+      users: this.users
     });
     this.addSubview("div.more-info", moreInfo);
   },
@@ -124,5 +127,9 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
       }
       });
   },
+
+  downloadCSV: function(event){
+    alert("Downloading...")
+  }
 
 })
