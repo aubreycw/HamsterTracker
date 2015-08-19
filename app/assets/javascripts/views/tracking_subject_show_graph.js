@@ -26,7 +26,8 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     'dblclick .editable': 'editField',
     'blur .edit-input': 'saveField',
     "click .delete": "destroySubject",
-    "click .download": "startDownloadCSV"
+    "click .download": "startDownloadCSV",
+    "click .download-with-notes": "startDownloadCSVnotes"
   },
 
   addDataPoints: function(dataPointsList, attribute){
@@ -128,28 +129,40 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
       });
   },
 
-  startDownloadCSV: function(event){
+  startDownloadCSV: function(event, notes){
     var data = new HamsterTracker.Collections.DataForCSV({
       trackingSubjectId: this.model.get("id")
     })
     var that = this;
     data.fetch({
       success: function(){
-        that.downloadCSV(data);
+        if (!!notes){
+          that.downloadCSV(data, true);
+        } else {
+          that.downloadCSV(data, false);
+        } 
       }
     })
   },
 
-  downloadCSV: function(data){
-    var file = encodeURI(this.buildCSV(data));
+  startDownloadCSVnotes: function(event){
+    this.startDownloadCSV(event, true);
+  },
+
+  downloadCSV: function(data, notes){
+    var file = encodeURI(this.buildCSV(data, notes));
     window.open(file);
   },
 
-  buildCSV: function(data_in_collection){
+  buildCSV: function(data_in_collection, notes){
     var csvString = "data:text/csv;charset=utf-8,";
+    var name = "no_notes";
+    if (notes){
+      name = "with_notes";
+    }
     data_in_collection.each(function(data){
-      n = data.get("value").length
-      data.get("value").forEach(function(row, index){
+      n = data.get(name).length
+      data.get(name).forEach(function(row, index){
         csvString += row.join(",") ;
         if (index < n){
           csvString += "\n";

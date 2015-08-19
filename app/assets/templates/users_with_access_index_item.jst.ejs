@@ -1,3 +1,14 @@
 <li>
-  <%=user.escape("username")%>
+
+  <button class="remove-access">
+    Remove access
+  </button>
+
+  <%=user.escape("username")%> can 
+  <%if (user.get("can_write")){%>
+    write
+  <%} else {%>
+    read
+    <%}%>
+    
 </li>

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
       resources :data_for_csv, only:[:index]
 
-      resources :users_with_access, only:[:index, :show]
+      resources :users_with_access, only:[:index, :show, :destroy]
 
       resources :shared_subjects, only:[:create, :destroy, :index]
 
