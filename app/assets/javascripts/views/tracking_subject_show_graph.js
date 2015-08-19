@@ -26,7 +26,7 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     'dblclick .editable': 'editField',
     'blur .edit-input': 'saveField',
     "click .delete": "destroySubject",
-    "click .download": "downloadCSV"
+    "click .download": "startDownloadCSV"
   },
 
   addDataPoints: function(dataPointsList, attribute){
@@ -128,8 +128,35 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
       });
   },
 
-  downloadCSV: function(event){
-    alert("Downloading...")
+  startDownloadCSV: function(event){
+    var data = new HamsterTracker.Collections.DataForCSV({
+      trackingSubjectId: this.model.get("id")
+    })
+    var that = this;
+    data.fetch({
+      success: function(){
+        that.downloadCSV(data);
+      }
+    })
+  },
+
+  downloadCSV: function(data){
+    var file = encodeURI(this.buildCSV(data));
+    window.open(file);
+  },
+
+  buildCSV: function(data_in_collection){
+    var csvString = "data:text/csv;charset=utf-8,";
+    data_in_collection.each(function(data){
+      n = data.get("value").length
+      data.get("value").forEach(function(row, index){
+        csvString += row.join(",") ;
+        if (index < n){
+          csvString += "\n";
+        }
+      }); 
+    });
+    return csvString;
   }
 
 })

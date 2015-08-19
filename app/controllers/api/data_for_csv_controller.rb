@@ -6,7 +6,7 @@ class Api::DataForCsvController < ApplicationController
     tracking_attributes = tracking_subject.tracking_attributes
     data_titles = tracking_attributes.map{|atrb| atrb.name}.sort
 
-    data_hash = sort_into_entries(trackings_attributes);
+    data_hash = sort_into_entries(tracking_attributes);
     data = get_array_from_hash(data_hash, data_titles)
     data_for_csv = DataForCsv.new(data);
     render :json => [data_for_csv]
