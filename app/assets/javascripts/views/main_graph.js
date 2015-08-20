@@ -185,7 +185,6 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         }
       });
     });
-    // add the "shake" button
     var svg = d3.select(this.el);
     svg.append("text")
       .attr("class", "shake-toggle")

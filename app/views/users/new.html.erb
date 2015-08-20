@@ -1,16 +1,28 @@
-<h1>Sign up</h1>
+<div class="row" style="height:200px"></div>
 
-<form action="/users" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<div class="row">
 
-  <label for="email">Email</label><br>
-  <input id="email" name="user[email]" type="email"><br>
+  <div class="col-md-4">
+  </div>
 
-  <label for="username">Username</label><br>
-  <input id="username" name="user[username]" type="text"><br>
+  <div class="col-md-2">
+    <h1>Sign up</h1>
 
-  <label for="password">Password</label><br>
-  <input id="password" name="user[password]" type="password"><br>
+    <form action="/users" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-  <input type="submit" value="Submit"><br>
-</form>
+      <label for="email">Email:</label><br>
+      <input id="email" name="user[email]" type="email"><br>
+
+      <label for="username">Username:</label><br>
+      <input id="username" name="user[username]" type="text"><br>
+
+      <label for="password">Password:</label><br>
+      <input id="password" name="user[password]" type="password"><br>
+
+      <br>
+
+      <input type="submit" class="btn btn-success" value="Submit"><br>
+    </form>
+  </div>
+</div>

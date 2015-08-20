@@ -2,11 +2,17 @@
 <h1 class="editable" data-field="name"><%=subject.escape("name")%></h1>
 
 <a href="#/tracking_subjects/<%=subject.escape("id")%>/make_entry">
-  <h4>New entry</h4>
+  <button class="btn btn-primary btn-lg">
+    New entry
+  </button>
 </a>
 
+<br>
+
 <a href="#/tracking_subjects/<%=subject.escape("id")%>/tracking_attributes/new">
-  New attribute
+  <button class="btn btn-primary btn-sm">
+    New attribute
+  </button>
 </a>
 
 
@@ -17,20 +23,18 @@
 
 <div class="correlations-table"></div>
 
-<br>
-
-<button class="download">
+<button class="download btn btn-primary">
   Download csv
 </button>
 
-<button class="download-with-notes">
+<button class="download-with-notes btn btn-primary">
   Download csv with notes
 </button>
 
 <br>
 <br>
 
-<button class="toggle_public">
+<button class="toggle_public btn btn-primary">
   <%if (is_public){%>
     Make private
   <%} else {%>
@@ -40,10 +44,14 @@
 
 <br>
 
-<a href="#/tracking_subjects/<%=subject.get("id")%>/add_user">Give user access</a>
+<a href="#/tracking_subjects/<%=subject.get("id")%>/add_user">
+  <button class="btn btn-primary">
+    Give user access
+  </button>
+</a>
 
 <br>
 
 
-<button class="delete">delete</button>
+<button class="delete btn btn-danger">delete</button>
 

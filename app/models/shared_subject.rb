@@ -18,7 +18,7 @@ class SharedSubject < ActiveRecord::Base
   belongs_to :tracking_subject
 
   def has_write_access?
-    return @write_access || @write_access.nil?
+    return !!@write_access
   end
 
 end

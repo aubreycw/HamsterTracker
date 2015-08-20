@@ -6,7 +6,14 @@
   </div>
 
   <div class="col-md-4">
-    <h1>Sign In</h1>
+    <h1>Sign In
+      <br>
+      <small> 
+        <a href="/users/new">
+          Or sign up here
+        </a> 
+      </small>
+    </h1>
 
     <form action="/session" method="post">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
@@ -16,8 +23,17 @@
 
       <label for="password">Password</label><br>
       <input id="password" name="user[password]" type="password"><br>
-      <brg>
-      <input type="submit" value="Submit"><br>
+      <br>
+      <input type="submit" class="btn btn-primary" value="Submit"><br>
+    </form>
+
+    <br>
+
+    <form action="/session" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="user[username]" value="human">
+      <input type="hidden" name="user[password]" value="password">
+      <input type="submit" class="btn btn-primary" value="Log in as guest">
     </form>
   </div>
 </div>
