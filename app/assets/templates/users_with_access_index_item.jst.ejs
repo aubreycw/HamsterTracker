@@ -1,8 +1,10 @@
 <li>
-
-  <button class="remove-access btn btn-danger">
-    Remove access
-  </button>
+  
+  <%if (canWrite){%>
+    <button class="remove-access btn btn-danger">
+      Remove access
+    </button>
+  <%}%>
 
   <%=user.escape("username")%> can 
   <%if (user.get("can_write")){%>
@@ -10,5 +12,11 @@
   <%} else {%>
     read
     <%}%>
+
+  <%if (user.get("is_owner")){%>
+     (owner)
+    <%}%>
+
+
     
 </li>

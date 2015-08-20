@@ -1,5 +1,6 @@
 HamsterTracker.Views.AttributesIndexItem = Backbone.CompositeView.extend({
-  initialize: function(){
+  initialize: function(options){
+    this.canWrite = options.canWrite;
     // this.listenTo(this.model, 'sync destroy', this.render);
   },
 
@@ -13,7 +14,7 @@ HamsterTracker.Views.AttributesIndexItem = Backbone.CompositeView.extend({
   tagName: "li",
 
   render: function(){
-    var content = this.template({attribute: this.model});
+    var content = this.template({attribute: this.model, canWrite: this.canWrite});
     this.$el.html(content);
     return this;
   },

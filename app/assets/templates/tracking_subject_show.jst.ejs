@@ -1,19 +1,24 @@
+<%if (canWrite){%> 
+  <h1 class="editable" data-field="name"><%=subject.escape("name")%></h1>
 
-<h1 class="editable" data-field="name"><%=subject.escape("name")%></h1>
+  <a href="#/tracking_subjects/<%=subject.escape("id")%>/make_entry">
+    <button class="btn btn-primary btn-lg">
+      New entry
+    </button>
+  </a>
 
-<a href="#/tracking_subjects/<%=subject.escape("id")%>/make_entry">
-  <button class="btn btn-primary btn-lg">
-    New entry
-  </button>
-</a>
+  <br>
 
-<br>
+  <a href="#/tracking_subjects/<%=subject.escape("id")%>/tracking_attributes/new">
+    <button class="btn btn-primary btn-sm">
+      New attribute
+    </button>
+  </a>
 
-<a href="#/tracking_subjects/<%=subject.escape("id")%>/tracking_attributes/new">
-  <button class="btn btn-primary btn-sm">
-    New attribute
-  </button>
-</a>
+<%} else {%>
+  <h1><%=subject.escape("name")%></h1>
+<%}%>
+
 
 
 <div class="graph"></div>
@@ -33,25 +38,26 @@
 
 <br>
 <br>
-
-<button class="toggle_public btn btn-primary">
-  <%if (is_public){%>
-    Make private
-  <%} else {%>
-    Make public
-  <%}%>
-</button>
-
-<br>
-
-<a href="#/tracking_subjects/<%=subject.get("id")%>/add_user">
-  <button class="btn btn-primary">
-    Give user access
+<%if (canWrite){%> 
+  <button class="toggle_public btn btn-primary">
+    <%if (is_public){%>
+      Make private
+    <%} else {%>
+      Make public
+    <%}%>
   </button>
-</a>
 
-<br>
+  <br>
+
+  <a href="#/tracking_subjects/<%=subject.get("id")%>/add_user">
+    <button class="btn btn-primary">
+      Give user access
+    </button>
+  </a>
+
+  <br>
 
 
-<button class="delete btn btn-danger">delete</button>
+  <button class="delete btn btn-danger">delete</button>
+<%}%>
 

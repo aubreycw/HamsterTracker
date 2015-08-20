@@ -24,4 +24,9 @@ class TrackingSubject < ActiveRecord::Base
   def is_public?
     @public
   end
+
+  def update_can_write(val)
+    #val is a boolean value
+    @can_write = val
+  end
 end

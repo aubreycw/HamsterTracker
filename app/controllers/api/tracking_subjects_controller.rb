@@ -5,7 +5,13 @@ class Api::TrackingSubjectsController < ApplicationController
   before_filter :require_has_write_access!, only: [:destroy, :update]
 
   def show
-    @tracking_subject = TrackingSubject.find(params[:id])
+    ts = TrackingSubject.find(params[:id])
+    shared_subject = SharedSubject.find_by({user_id: current_user.id, tracking_subject_id: ts.id})
+    if !!shared_subject
+      @tracking_subject = TrackingSubjectWithAccess.new(ts.user_id, ts.name, ts.public, ts.id, shared_subject.has_write_access?)
+    else
+      @tracking_subject = TrackingSubjectWithAccess.new(ts.user_id, ts.name, ts.public, ts.id, true)
+    end
     render :json => @tracking_subject
   end
 
@@ -28,13 +34,28 @@ class Api::TrackingSubjectsController < ApplicationController
 
   def index
     user = current_user
-    @tracking_subjects = user.tracking_subjects
-    @accessible_subjects = user.accessible_subjects
-    puts "IN TRACKING SUBJECTS INDEX"
-    puts @tracking_subjects
-    puts @accessible_subjects
-    puts "---------------------------"
+    @tracking_subjects = convert_to_access_true(user.tracking_subjects)
+    @accessible_subjects = convert_to_with_access(user.accessible_subjects)
     render :json => (@tracking_subjects + @accessible_subjects).uniq
+  end
+
+  def convert_to_with_access(subjects)
+    result = []
+    subjects.each do |ts|
+      shared_subject = SharedSubject.find_by({user_id: current_user.id, tracking_subject_id: ts.id})
+      tracking_subject = TrackingSubjectWithAccess.new(ts.user_id, ts.name, ts.public, ts.id, shared_subject.has_write_access?)
+      result << tracking_subject
+    end
+    result
+  end
+
+  def convert_to_access_true(subjects)
+    result = []
+    subjects.each do |ts|
+      tracking_subject = TrackingSubjectWithAccess.new(ts.user_id, ts.name, ts.public, ts.id, true)
+      result << tracking_subject
+    end
+    result
   end
 
   def update
@@ -75,5 +96,17 @@ class Api::TrackingSubjectsController < ApplicationController
   private
   def tracking_subject_params
     params.require(:tracking_subject).permit(:name, :public)
+  end
+end
+
+class TrackingSubjectWithAccess
+  attr_reader :user_id, :name, :is_public, :id, :can_write
+
+  def initialize(user_id, name, is_public, id, can_write)
+    @user_id = user_id
+    @name = name
+    @public = is_public
+    @id = id
+    @can_write = can_write
   end
 end

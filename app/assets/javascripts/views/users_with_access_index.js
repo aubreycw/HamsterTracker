@@ -1,5 +1,6 @@
 HamsterTracker.Views.UsersWithAccessIndex = Backbone.CompositeView.extend({
   initialize: function(options){
+    this.canWrite = options.canWrite
     var id = this.collection.trackingSubjectId;
     this.collection.each(function (user) {
       user.trackingSubjectId = id;
@@ -34,7 +35,8 @@ HamsterTracker.Views.UsersWithAccessIndex = Backbone.CompositeView.extend({
   addUserSubview: function (user) {
     var userListItem = new HamsterTracker.Views.UsersWithAccessIndexItem({
       model: user, 
-      trackingSubjectId: this.collection.trackingSubjectId
+      trackingSubjectId: this.collection.trackingSubjectId,
+      canWrite: this.canWrite
     });
     this.addSubview("ul.users-list", userListItem);
   },

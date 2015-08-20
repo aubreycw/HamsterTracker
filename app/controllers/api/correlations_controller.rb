@@ -89,7 +89,7 @@ class Api::CorrelationsController < ApplicationController
     @tracking_subject = TrackingSubject.find(params[:tracking_subject_id])
     return true if @tracking_subject.is_public?
 
-    @shared_subject = SharedSubject.find_by({tracking_subject_id: params[:id], user_id: current_user.id})
+    @shared_subject = SharedSubject.find_by({tracking_subject_id: params[:tracking_subject_id], user_id: current_user.id})
 
     return true if !!@shared_subject
 

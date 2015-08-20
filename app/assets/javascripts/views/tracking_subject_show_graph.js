@@ -50,7 +50,8 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
   addMoreInfo: function(attributes){
     var moreInfo = new HamsterTracker.Views.MoreInfo({
       collection: attributes,
-      users: this.users
+      users: this.users,
+      canWrite: this.model.get("can_write")
     });
     this.addSubview("div.more-info", moreInfo);
   },
@@ -89,17 +90,17 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
   },
   
   render: function(){
-    var that = this;
     var is_public = this.model.get("public")
     if (is_public === null){
       is_public = true;
     }
-    var content = that.template({
-      subject: that.model,
-      is_public: is_public
+    var content = this.template({
+      subject: this.model,
+      is_public: is_public,
+      canWrite: this.model.get("can_write")
     });
-    that.$el.html(content);
-    that.attachSubviews();
+    this.$el.html(content);
+    this.attachSubviews();
     return this;
   },
 

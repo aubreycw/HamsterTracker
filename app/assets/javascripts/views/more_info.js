@@ -1,6 +1,7 @@
 HamsterTracker.Views.MoreInfo = Backbone.CompositeView.extend({
   initialize: function(options){
     this.users = options.users;
+    this.canWrite = options.canWrite;
   },
 
   events: {
@@ -28,12 +29,14 @@ HamsterTracker.Views.MoreInfo = Backbone.CompositeView.extend({
     var content = JST['expand_info']();
     this.$el.html(content)
     var attributeListView = new HamsterTracker.Views.AttributesIndex({
-      collection: this.collection
+      collection: this.collection,
+      canWrite: this.canWrite
     });
     this.addSubview("div.attributes-list", attributeListView)
 
     var userListView = new HamsterTracker.Views.UsersWithAccessIndex({
-      collection: this.users
+      collection: this.users,
+      canWrite: this.canWrite
     });
     this.addSubview("div.users-list", userListView)
 
