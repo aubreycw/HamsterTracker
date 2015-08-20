@@ -5,11 +5,6 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
 
   template: JST['correlations_table'],
 
-  events: {
-    "click button.more-table": "renderCorrelationsTable",
-    "click button.less-table": "render"
-  },
-
   attributes: {
     width: 700,
     height: 400
@@ -77,8 +72,7 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
   },
 
   render: function(event){
-    var content = this.template();
-    this.$el.html(content)
+    this.renderCorrelationsTable();
     return this;
   },
 
@@ -111,8 +105,6 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
     .text(function(d){return d;})
     .style("font-size", "15px")
     .style("font-color", "black");
-
-    this.$el.prepend(JST["correlations_table_expand"]());
   }
 
 })

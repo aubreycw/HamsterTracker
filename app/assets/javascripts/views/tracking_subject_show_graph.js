@@ -27,7 +27,28 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
     'blur .edit-input': 'saveField',
     "click .delete": "destroySubject",
     "click .download": "startDownloadCSV",
-    "click .download-with-notes": "startDownloadCSVnotes"
+    "click .download-with-notes": "startDownloadCSVnotes",
+    "click .expand-options": "expandMoreOptions",
+    "click .compress-options": "compressMoreOptions"
+  },
+
+  expandMoreOptions: function(event){
+    var is_public = this.model.get("public")
+    if (is_public === null){
+      is_public = true;
+    }
+
+    var content = JST["more_options"]({
+      is_public: is_public,
+      canWrite: this.model.get("can_write"),
+      subject: this.model
+    });
+    this.$el.find("div.more-options").html(content);
+  },
+
+  compressMoreOptions: function(event){
+    var content = JST["more_options_button"]();
+    this.$el.find("div.more-options").html(content);
   },
 
   addDataPoints: function(dataPointsList, attribute){

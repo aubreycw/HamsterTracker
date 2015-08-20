@@ -1,23 +1,23 @@
 <div class="row">
-  <div class="col-md-10">
-    <h1>Hamster Tracker</h1>
+  <div class="col-md-9">
+    <h2>Hamster Tracker</h2>
   </div>
 
   <div class="col-md-2">
+    <br>
     <p>
       <%if !!current_user %>
-        <h3>Welcome <%=current_user.username%>!</h3>
+        <h4>Welcome <%=current_user.username%>!</h4>
       <%end%>
     </p>
   </div>
-</div>
 
-<div class = "row">
-  <div class="col-md-10">
-  </div>
-  <div class="col-md-2">
+  <div class="col-md-1">
+    <br>
       <%= button_to "Sign Out", session_url, :method => :delete, :class => "sign_out_button btn btn-primary" %>
   </div>
+  <br>
+  <br>
 </div>
 
 <div class="row">
@@ -26,7 +26,6 @@
   </div>
 
   <div class="col-md-2">
-    <div style="height:100px"></div>
     <div id='sidebar'></div>
   </div>
 

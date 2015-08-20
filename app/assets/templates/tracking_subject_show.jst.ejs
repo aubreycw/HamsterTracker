@@ -1,19 +1,11 @@
 <%if (canWrite){%> 
-  <h1 class="editable" data-field="name"><%=subject.escape("name")%></h1>
-
-  <a href="#/tracking_subjects/<%=subject.escape("id")%>/make_entry">
-    <button class="btn btn-primary btn-lg">
-      New entry
-    </button>
-  </a>
+  
+  
+  <div class="col-md-8">
+    <h1 class="editable" data-field="name"><%=subject.escape("name")%></h1>
+  </div>
 
   <br>
-
-  <a href="#/tracking_subjects/<%=subject.escape("id")%>/tracking_attributes/new">
-    <button class="btn btn-primary btn-sm">
-      New attribute
-    </button>
-  </a>
 
 <%} else {%>
   <h1><%=subject.escape("name")%></h1>
@@ -23,41 +15,26 @@
 
 <div class="graph"></div>
 
-<div class="more-info"></div>
-<br>
-
-<div class="correlations-table"></div>
-
-<button class="download btn btn-primary">
-  Download csv
-</button>
-
-<button class="download-with-notes btn btn-primary">
-  Download csv with notes
-</button>
-
 <br>
 <br>
-<%if (canWrite){%> 
-  <button class="toggle_public btn btn-primary">
-    <%if (is_public){%>
-      Make private
-    <%} else {%>
-      Make public
-    <%}%>
-  </button>
+
+<div class="correlations-table col-md-6"></div>
+
+
+<div class="col-md-3">
+  <div class="more-info"></div>
 
   <br>
+  <div class="more-options">
+    <button class="expand-options btn btn-primary">More options</button>
+  </div>
+</div>
 
-  <a href="#/tracking_subjects/<%=subject.get("id")%>/add_user">
-    <button class="btn btn-primary">
-      Give user access
-    </button>
-  </a>
-
-  <br>
-
-
-  <button class="delete btn btn-danger">delete</button>
-<%}%>
+  <div class="col-md-2">
+    <a href="#/tracking_subjects/<%=subject.escape("id")%>/make_entry">
+      <button class="btn btn-primary">
+        +
+      </button>
+    </a>
+  </div>
 

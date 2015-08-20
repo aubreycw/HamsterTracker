@@ -1,0 +1,42 @@
+ <button class="compress-options btn btn-primary">Less options</button>
+ <br>
+ <br>
+
+<!--  <button class="download btn btn-primary">
+    Download csv
+  </button> -->
+
+  <button class="download-with-notes btn btn-primary">
+    Download csv
+  </button>
+
+  <br>
+  <%if (canWrite){%> 
+    <button class="toggle_public btn btn-primary">
+      <%if (is_public){%>
+        Make private
+      <%} else {%>
+        Make public
+      <%}%>
+    </button>
+
+    <br>
+
+    <a href="#/tracking_subjects/<%=subject.get("id")%>/add_user">
+      <button class="btn btn-primary">
+        Give user access
+      </button>
+    </a>
+
+    <br>
+
+    <a href="#/tracking_subjects/<%=subject.escape("id")%>/tracking_attributes/new">
+      <button class="btn btn-primary btn-sm">
+        New attribute
+      </button>
+    </a>
+
+    <br>
+    <br>
+    <button class="delete btn btn-danger">delete</button>
+  <%}%>
