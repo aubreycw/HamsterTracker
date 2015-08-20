@@ -3,6 +3,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   initialize: function(options){
     this.colorLoc = -1;
     this.dataPointsList = options.dataPointsList;
+    this.trendlines = options.trendlines;
     this.atrbColors = [];
     this.shakeOn = true;
     var that = this;
@@ -170,6 +171,9 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         that.renderGraph(dataList);
       }
     });
+    this.trendlines.each(function(trendline){
+      that.renderTrendline(trendline);
+    });   
   },
 
   renderNamesHandler: function(){
@@ -219,7 +223,6 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   },
 
   renderGraph: function(dataset){
-
     if (!dataset[0][0]){
       return this;
     }
@@ -296,6 +299,34 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .call(xAxis);
 
     this.axisPadding += 40;
+    return this;
+  },
+
+  renderTrendline: function(trendline){
+    if (HamsterTracker.unshownAttributes.indexOf(trendline.get("atrb_id")) > -1){
+      return this;
+    }
+    console.log(this.trendlines);
+    var svg = d3.select(this.el);
+    var xpadding = 30;
+    var ypadding = this.numAxis*40;
+    var col = this.atrbColors[trendline.get("atrb_id")];
+
+    var xscale =  d3.time.scale()
+      .domain([100,0])
+      .range([this.width - this.legendWidth, ypadding]); 
+
+    var yscale = d3.scale.linear()
+      .domain([trendline.get("min_y"), trendline.get("max_y")])
+      .range([xpadding, this.height - xpadding]);
+
+    svg.append("line")         
+    .style("stroke", col)
+    .style("stroke-width", 1)
+    .attr("x1", xscale(trendline.get("first")[0]))
+    .attr("y1", yscale(trendline.get("first")[1]))
+    .attr("x2", xscale(trendline.get("last")[0])) 
+    .attr("y2", yscale(trendline.get("last")[1]));
     return this;
   },
 

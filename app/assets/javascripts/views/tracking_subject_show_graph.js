@@ -60,12 +60,22 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
   },
 
   addGraph: function(attributes, dataPointsList){
-    var graph = new HamsterTracker.Views.MainGraph({
-      collection: attributes,
-      dataPointsList: dataPointsList,
+    var trendlines = new HamsterTracker.Collections.Trendlines({
+      trackingSubjectId: this.model.get("id")
     });
 
-    this.addSubview("div.graph", graph);
+    var that = this;
+    trendlines.fetch({
+      success: function(){
+        var graph = new HamsterTracker.Views.MainGraph({
+        collection: attributes,
+        dataPointsList: dataPointsList,
+        trendlines: trendlines
+        });
+
+        that.addSubview("div.graph", graph);
+      }
+    })
   },
 
   addMoreInfo: function(attributes){

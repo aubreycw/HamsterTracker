@@ -1,0 +1,2 @@
+module TrendlinesHelper
+end

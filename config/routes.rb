@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
       resources :correlations, only:[:index]
 
+      resources :trendlines, only:[:index]
+
       resources :tracking_attributes, only: [:index, :create, :destroy, :update, :show] do
         resources :data_points, only: [:index, :create, :destroy, :update, :show]
       end
