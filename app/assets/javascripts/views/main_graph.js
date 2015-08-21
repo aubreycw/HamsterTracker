@@ -230,6 +230,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     if (HamsterTracker.unshownAttributes.indexOf(dataset[0][1]) > -1){
       return this;
     }
+
             //0 id, 
             //1 tracking_attribute_id, 
             //2 time, 
@@ -314,7 +315,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   renderTrendline: function(trendline){
     return this;
-    
+
     if (HamsterTracker.unshownAttributes.indexOf(trendline.get("atrb_id")) > -1){
       return this;
     }

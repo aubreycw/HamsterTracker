@@ -21,7 +21,6 @@ HamsterTracker.Views.AttributeForm = Backbone.View.extend({
 
     var that = this;
     this.model.set(attrs);
-    console.log("about to save");
     this.model.save({}, {
       success: function () {
         that.collection.add(that.model);
@@ -29,7 +28,6 @@ HamsterTracker.Views.AttributeForm = Backbone.View.extend({
       },
 
       error: function (model, response) {
-        console.log("Errors!");
         $('.errors').empty();
         var $li = $('<li>' + response.responseText + '</li>');
         $('.errors').append($li);

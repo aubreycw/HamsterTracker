@@ -21,7 +21,6 @@ HamsterTracker.Views.SubjectForm = Backbone.View.extend({
 
     var that = this;
     this.model.set(attrs);
-    console.log("about to save");
     this.model.save({}, {
       success: function () {
         that.collection.add(that.model);

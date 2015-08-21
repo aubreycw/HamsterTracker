@@ -137,7 +137,6 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
 
   destroySubject: function(event){
     if (window.confirm("Are you sure you want to delete " + this.model.escape("name") + "?")){
-      debugger;
       this.model.destroy();
       this.remove();
       Backbone.history.navigate("#",{ trigger: true });
@@ -159,7 +158,6 @@ HamsterTracker.Views.SubjectShowGraph = Backbone.CompositeView.extend({
         that.render();
       },
       error: function(){
-        console.log("there was an error");
       }
       });
   },

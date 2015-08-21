@@ -40,7 +40,6 @@ HamsterTracker.Views.SubjectShow = Backbone.CompositeView.extend({
   },
   
   render: function(){
-    debugger;
     var content = this.template({subject: this.model});
     this.$el.html(content);;
     this.attachSubviews();

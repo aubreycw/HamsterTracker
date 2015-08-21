@@ -38,7 +38,6 @@ HamsterTracker.Views.DataPointForm = Backbone.View.extend({
       },
 
       error: function (model, response) {
-        console.log("Errors!");
         $('.errors').empty();
         var $li = $('<li>' + response.responseText + '</li>');
         $('.errors').append($li);
