@@ -69,9 +69,9 @@
 
   Circle.randomColor = function () {
     var colorsBright = ["#B9EC47", "#3EC0B7", "#F7B15E", "#FF82C3", "#3EC0B7", "#907A9D"];
-    var colorsMuted = ["#AEA8D3", "#674172", "#336E7B", "#1BA39C"];
+    var colorsMuted = ["#AEA8D3", "#674172", "#1BA39C"];
     var colors = colorsMuted
-    return colors[Math.floor((Math.random() * colors.length-1))];
+    return colors[Math.floor((Math.random() * colors.length))];
   };
 
   Circle.radius = function (maxX, maxY, numCircles) {
@@ -91,7 +91,7 @@
   Circle.prototype.render = function (ctx) {
     ctx.fillStyle = this.color;
     ctx.beginPath();
-
+    ctx.lineWidth=5;
     ctx.arc(
       this.centerX,
       this.centerY,
@@ -108,7 +108,7 @@
     window.Lines = {};
   }
 
-  var Line = Lines.Line = function (x1, y1, x2, x2, color, dx1, dy1, dx2, dy2) {
+  var Line = Circles.Line = function (x1, y1, x2, y2, color, dx1, dy1, dx2, dy2) {
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
@@ -118,7 +118,78 @@
     this.dy1 = dy1;
     this.dx2 = dx2;
     this.dy2 = dy2;
+    this.thickness = Math.random()*5+1
   };
+
+
+  Line.randomLine = function (maxX, maxY) {
+    var x1;
+    var x2;
+    var y1;
+    var y2;
+    var dx1;
+    var dx2;
+    var dy1;
+    var dy2;
+    if (Math.random() < 0.5){
+      x1 = Math.random() < 0.5 ? 0 : maxX;
+      y1 = Math.random()*maxY;
+      dy1 = Math.random()*0.1
+      dx1 = 0
+    } else {
+      y1 = Math.random() < 0.5 ? 0 : maxY;
+      x1 = Math.random()*maxX;
+      dx1 = Math.random()*0.1
+      dy2 = 0
+    }
+
+    if (Math.random() < 0.5){
+      x2 = Math.random() < 0.5 ? 0 : maxX;
+      y2 = Math.random()*maxY;
+      dy2 = Math.random()*0.5
+      dx2 = 0
+    } else {
+      y2 = Math.random() < 0.5 ? 0 : maxY;
+      x2 = Math.random()*maxX;
+      dx2 = Math.random()*0.5
+      dy2 = 0
+    }
+
+    return new Line(
+      x1, y1, x2, y2,
+      Circle.randomColor(),
+      dx1, dy1, dx2, dy2
+    );
+  };
+
+  Line.prototype.move = function (maxX, maxY) {
+    var dx = this.dx;
+    var dy = this.dy;
+
+    this.x1 = this.x1 + this.dx1;
+    this.x2 = this.x2 + this.dx2;
+    this.y1 = this.y1 + this.dy1;
+    this.y2 = this.y2 + this.dy2;
+  };
+
+  Line.prototype.render = function (ctx) {
+    ctx.strokeStyle= this.color;
+    ctx.lineWidth= this.thickness;
+    ctx.beginPath();
+
+    ctx.beginPath();
+    ctx.moveTo(this.x1,this.y1);
+    ctx.lineTo(this.x2,this.y2);
+    ctx.stroke();
+  };
+
+  Circle.randomColor = function () {
+    var colorsBright = ["#B9EC47", "#3EC0B7", "#F7B15E", "#FF82C3", "#3EC0B7", "#907A9D"];
+    var colorsMuted = ["#AEA8D3", "#674172", "#1BA39C"];
+    var colors = colorsMuted
+    return colors[Math.floor((Math.random() * colors.length))];
+  };
+
 
 
   var Game = Circles.Game = function (xDim, yDim) {
@@ -131,24 +202,37 @@
         Circles.Circle.randomCircle(xDim, yDim, Game.NUM_CIRCLES)
       );
     }
+
+    this.lines = [];
+    for (var i = 0; i < 20; ++i) {
+      this.lines.push(
+        Circles.Line.randomLine(xDim, yDim)
+      );
+    }
   };
 
   Game.NUM_CIRCLES = 40;
 
   Game.prototype.render = function (ctx) {
     ctx.clearRect(0, 0, this.xDim, this.yDim);
-
-    var ctx = canvasEl.getContext("2d");
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.lineTo(300,150);
-    ctx.stroke();
+    
 
     this.circles.forEach(function (circle) {
       circle.render(ctx);
     });
+
+    this.lines.forEach(function (line) {
+      line.render(ctx);
+    });
   };
 
+  Game.prototype.moveLines = function () {
+    var game = this;
+    this.lines.forEach(function (line) {
+      line.move(game.xDim, game.yDim);
+    });
+
+  };
 
 
   Game.prototype.moveCircles = function () {
@@ -167,6 +251,7 @@
     // render at 60 FPS
     window.setInterval((function () {
       this.moveCircles();
+      this.moveLines();
       this.render(ctx);
     }).bind(this), 1000 / 60);
   };
