@@ -11,7 +11,8 @@ class SessionsController < ApplicationController
       render :new
     else
       login_user!(@user)
-      redirect_to :root
+      id = @user.tracking_subjects[0].id
+      redirect_to "#/tracking_subjects/#{id}"
     end
   end
 

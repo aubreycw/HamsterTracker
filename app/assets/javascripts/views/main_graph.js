@@ -299,14 +299,29 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .call(xAxis);
 
     this.axisPadding += 40;
+    for (var i = 0; i <= dataset.length - 2; i++) {
+      svg.append("line")         
+      .style("stroke", col)
+      .style("stroke-width", 2)
+      .attr("x1", xscale(dataset[i][2]))
+      .attr("y1", yscale(dataset[i][3]))
+      .attr("x2", xscale(dataset[i+1][2])) 
+      .attr("y2", yscale(dataset[i+1][3]));
+    };
+
     return this;
   },
 
   renderTrendline: function(trendline){
+    return this;
+    
     if (HamsterTracker.unshownAttributes.indexOf(trendline.get("atrb_id")) > -1){
       return this;
     }
-    console.log(this.trendlines);
+
+    // this.renderExpTrendLine(trendline);
+    // return this;
+
     var svg = d3.select(this.el);
     var xpadding = 30;
     var ypadding = this.numAxis*40;
@@ -327,6 +342,44 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     .attr("y1", yscale(trendline.get("first")[1]))
     .attr("x2", xscale(trendline.get("last")[0])) 
     .attr("y2", yscale(trendline.get("last")[1]));
+
+    svg.append("text")
+      .attr("class", "r-value")
+      .attr("font-size", "20px")
+      .attr("x", xscale(trendline.get("last")[0]))
+      .attr("y", yscale(trendline.get("last")[1]))
+      .text(trendline.get("r"))
+      .attr("fill", col);
+
+    return this;
+  },
+
+  renderExpTrendLine: function(trendline){
+    dataset = trendline.get("exponential")
+
+    var svg = d3.select(this.el);
+
+    var xpadding = 30;
+    var ypadding = this.numAxis*40;
+    var col = this.atrbColors[trendline.get("atrb_id")];
+
+    var xscale =  d3.time.scale()
+      .domain([100,0])
+      .range([this.width - this.legendWidth, ypadding]); 
+
+    var yscale = d3.scale.linear()
+      .domain([trendline.get("min_y"), trendline.get("max_y")])
+      .range([xpadding, this.height - xpadding]);
+
+    for (var i = 0; i <= dataset.length - 2; i++) {
+      svg.append("line")         
+      .style("stroke", col)
+      .style("stroke-width", 2)
+      .attr("x1", xscale(dataset[i][0]))
+      .attr("y1", yscale(dataset[i][1]))
+      .attr("x2", xscale(dataset[i+1][0])) 
+      .attr("y2", yscale(dataset[i+1][1]));
+    };
     return this;
   },
 
