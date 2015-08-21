@@ -59,7 +59,7 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
 
   get_color: function(x){
     var x = parseFloat(x)
-    colors = ["#FFFF66","#FFFFCC","#FFFFFF","#D4B8D4","#A971A9"]
+    colors = ["#674172","#AEA8D3","#F2F1EF","#1BA39C","#336E7B"]
     if (isNaN(x)){
       return colors[Math.floor((colors.length)/2)];
     }
@@ -104,7 +104,7 @@ HamsterTracker.Views.CorrelationsTable = Backbone.CompositeView.extend({
     .style("background-color", function(d){return that.get_color(d);})
     .text(function(d){return d;})
     .style("font-size", "15px")
-    .style("font-color", "black");
+    .style("color", "black");
   }
 
 })

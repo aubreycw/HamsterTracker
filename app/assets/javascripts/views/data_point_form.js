@@ -16,11 +16,13 @@ HamsterTracker.Views.DataPointForm = Backbone.View.extend({
   },
 
   destroySubject: function(event){
-    this.model.destroy();
-    this.remove();
-    Backbone.history.navigate('#/tracking_subjects/' + 
-      this.model.trackingSubjectId, 
-      { trigger: true });
+    if (window.confirm("Are you sure you want to delete this data point?")){
+      this.model.destroy();
+      this.remove();
+      Backbone.history.navigate('#/tracking_subjects/' + 
+        this.model.trackingSubjectId, 
+        { trigger: true });
+    }
   },
 
   submit: function (event) {

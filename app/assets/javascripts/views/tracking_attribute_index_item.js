@@ -20,8 +20,10 @@ HamsterTracker.Views.AttributesIndexItem = Backbone.CompositeView.extend({
   },
 
   destroyAttribute: function(event){
-    this.model.destroy();
-    this.remove();
+    if (window.confirm("Are you sure you want to delete " + this.model.escape("name") + "?")){
+      this.model.destroy();
+      this.remove();
+    }
   },
 
   editAttribute: function(event){

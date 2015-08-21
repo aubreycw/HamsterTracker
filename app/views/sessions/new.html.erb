@@ -1,3 +1,4 @@
+
 <div class="row" style="height:200px"></div>
 
 <div class="row">
@@ -37,3 +38,147 @@
     </form>
   </div>
 </div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+  if (typeof Circles === "undefined") {
+    window.Circles = {};
+  }
+
+  var Circle = Circles.Circle = function (centerX, centerY, radius, color, dx, dy) {
+    this.centerX = centerX;
+    this.centerY = centerY;
+    this.radius = radius;
+    this.color = color;
+    this.dx = dx;
+    this.dy = dy;
+  };
+
+
+  Circle.randomCircle = function (maxX, maxY, numCircles) {
+    return new Circle(
+      maxX * Math.random(),
+      maxY * Math.random(),
+      Circle.radius(maxX, maxY, numCircles),
+      Circle.randomColor(),
+      Math.random()*0.2,
+      Math.random()*0.2
+    );
+  };
+
+  Circle.randomColor = function () {
+    var colorsBright = ["#B9EC47", "#3EC0B7", "#F7B15E", "#FF82C3", "#3EC0B7", "#907A9D"];
+    var colorsMuted = ["#AEA8D3", "#674172", "#336E7B", "#1BA39C"];
+    var colors = colorsMuted
+    return colors[Math.floor((Math.random() * colors.length-1))];
+  };
+
+  Circle.radius = function (maxX, maxY, numCircles) {
+    var targetCircleArea = (maxX * maxY) / 4000;
+    var targetRadius = 2*Math.random()*Math.sqrt(targetCircleArea / Math.PI)+0.1;
+    return 2 * targetRadius;
+  };
+
+  Circle.prototype.move = function (maxX, maxY) {
+    var dx = this.dx;
+    var dy = this.dy;
+
+    this.centerX = Math.abs((this.centerX + (dx * this.radius * 0.1)) % maxX);
+    this.centerY = Math.abs((this.centerY + (dy * this.radius) * 0.1) % maxY);
+  };
+
+  Circle.prototype.render = function (ctx) {
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+
+    ctx.arc(
+      this.centerX,
+      this.centerY,
+      this.radius,
+      0,
+      2 * Math.PI,
+      false
+    );
+
+    ctx.fill();
+  };
+
+  if (typeof Lines === "undefined") {
+    window.Lines = {};
+  }
+
+  var Line = Lines.Line = function (x1, y1, x2, x2, color, dx1, dy1, dx2, dy2) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+    this.color = color
+    this.dx1 = dx1;
+    this.dy1 = dy1;
+    this.dx2 = dx2;
+    this.dy2 = dy2;
+  };
+
+
+  var Game = Circles.Game = function (xDim, yDim) {
+    this.xDim = xDim;
+    this.yDim = yDim;
+
+    this.circles = [];
+    for (var i = 0; i < Game.NUM_CIRCLES; ++i) {
+      this.circles.push(
+        Circles.Circle.randomCircle(xDim, yDim, Game.NUM_CIRCLES)
+      );
+    }
+  };
+
+  Game.NUM_CIRCLES = 40;
+
+  Game.prototype.render = function (ctx) {
+    ctx.clearRect(0, 0, this.xDim, this.yDim);
+
+    var ctx = canvasEl.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(300,150);
+    ctx.stroke();
+
+    this.circles.forEach(function (circle) {
+      circle.render(ctx);
+    });
+  };
+
+
+
+  Game.prototype.moveCircles = function () {
+    var game = this;
+    this.circles.forEach(function (circle) {
+      circle.move(game.xDim, game.yDim);
+    });
+
+  };
+
+  Game.prototype.start = function (canvasEl) {
+    // get a 2d canvas drawing context. The canvas API lets us call
+    // a `getContext` method on a canvas DOM element.
+    var ctx = canvasEl.getContext("2d");
+
+    // render at 60 FPS
+    window.setInterval((function () {
+      this.moveCircles();
+      this.render(ctx);
+    }).bind(this), 1000 / 60);
+  };
+</script>
+
+
+<script>
+      var canvasEl = document.getElementsByTagName("canvas")[0];
+      canvasEl.height = window.innerHeight;
+      canvasEl.width = window.innerWidth;
+      new Circles.Game(
+        canvasEl.width,
+        canvasEl.height
+      ).start(canvasEl);
+    </script>
