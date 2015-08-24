@@ -5,6 +5,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     this.dataPointsList = options.dataPointsList;
     this.trendlines = options.trendlines;
     this.atrbColors = [];
+    this.trendlineOption = [];
     this.shakeOn = true;
     var that = this;
     this.width = 800;
@@ -19,7 +20,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     "mouseenter circle": "highlightCircle",
     "mouseleave circle": "unHighlightCircle",
     "click .legend": "toggleAttribute",
-    "click .shake-toggle": "toggleShake"
+    "click .shake-toggle": "toggleShake",
+    "click .legend-option": "changeTrendline"
   },
 
   template: JST['main_graph'],
@@ -74,6 +76,13 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
   toggleShake: function(event){
     this.shakeOn = !this.shakeOn;
+    this.$el.empty();
+    this.render();
+  },
+
+  changeTrendline: function(event){
+    var taId = parseInt(event.currentTarget.dataset.taId);
+    this.trendlineOption[taId] = event.currentTarget.dataset.trendline;
     this.$el.empty();
     this.render();
   },
@@ -285,7 +294,6 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
         return d[4];
       })
       .attr("fill",col)
-      // .attr("opacity",0.5)
       .append("svg:title")
       .text(function(d) { return d[5]; });
 
@@ -300,6 +308,11 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .call(xAxis);
 
     this.axisPadding += 40;
+
+    if (this.trendlineOption[dataset[0][1]] !== undefined && this.trendlineOption[dataset[0][1]] !== "join"){
+      return this;
+    } 
+
     for (var i = 0; i <= dataset.length - 2; i++) {
       svg.append("line")         
       .style("stroke", col)
@@ -314,15 +327,23 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
   },
 
   renderTrendline: function(trendline){
-    return this;
 
     if (HamsterTracker.unshownAttributes.indexOf(trendline.get("atrb_id")) > -1){
       return this;
     }
+    var trendlineOption = this.trendlineOption[trendline.get("atrb_id")];
+    if ( trendlineOption === "none"){
+      return this;
+    } else if (trendlineOption === "exp") {
+      this.renderExpTrendLine(trendline);
+      return this;
+    } else if (trendlineOption === "linear") {
+      this.renderLinearTrendLine(trendline);
+    }
+    return this;
+  },
 
-    // this.renderExpTrendLine(trendline);
-    // return this;
-
+  renderLinearTrendLine: function(trendline){
     var svg = d3.select(this.el);
     var xpadding = 30;
     var ypadding = this.numAxis*40;
@@ -336,24 +357,23 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .domain([trendline.get("min_y"), trendline.get("max_y")])
       .range([xpadding, this.height - xpadding]);
 
+    var linear = trendline.get("linear");
     svg.append("line")         
-    .style("stroke", col)
-    .style("stroke-width", 1)
-    .attr("x1", xscale(trendline.get("first")[0]))
-    .attr("y1", yscale(trendline.get("first")[1]))
-    .attr("x2", xscale(trendline.get("last")[0])) 
-    .attr("y2", yscale(trendline.get("last")[1]));
+      .style("stroke", col)
+      .style("stroke-width", 1)
+      .attr("x1", xscale(linear[0][0]))
+      .attr("y1", yscale(linear[0][1]))
+      .attr("x2", xscale(linear[1][0])) 
+      .attr("y2", yscale(linear[1][1]));
 
     svg.append("text")
       .attr("class", "r-value")
       .attr("font-size", "20px")
-      .attr("x", xscale(trendline.get("last")[0]))
-      .attr("y", yscale(trendline.get("last")[1]))
+      .attr("x", xscale(linear[1][0]))
+      .attr("y", yscale(linear[1][1]))
       .text(trendline.get("r"))
       .attr("fill", col);
-
-    return this;
-  },
+    },
 
   renderExpTrendLine: function(trendline){
     dataset = trendline.get("exponential")
@@ -388,7 +408,7 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
     var svg = d3.select(this.el);
     var xpadding = 30;
     var ypadding = this.numAxis*40;
-    var fontWeight = "bold";
+    var fontWeight = "bolder";
     if (HamsterTracker.unshownAttributes.indexOf(atrbName[1]) > -1){
       fontWeight = "lighter";
     }
@@ -402,6 +422,8 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
       .attr("y", this.legendPadding + 10)
       .text(atrbName[0])
       .attr("fill", this.atrbColors[atrbName[1]]);
+
+    this.renderOptions(atrbName, svg, fontWeight)
 
     this.legendPadding += 40;
 
@@ -429,6 +451,25 @@ HamsterTracker.Views.MainGraph = Backbone.CompositeView.extend({
 
       this.axisPadding += 40;
       return this;
+  },
+
+  renderOptions: function(atrbName, svg, fontWeight){
+    var that = this;
+    var x = this.width*0.9;
+    var names = ["none", "linear", "exp", "join"];
+    names.forEach(function(name){
+      svg.append("text")
+        .attr("class", "legend-option")
+        .attr("font-size", "15px")
+        .attr("font-weight", fontWeight)
+        .attr("data-taId", atrbName[1])
+        .attr("data-trendline", name)
+        .attr("x", x)
+        .attr("y", that.legendPadding + 25)
+        .text(name)
+        .attr("fill", that.atrbColors[atrbName[1]]);
+      x += 50;
+    })
   },
 
   // Originally from http://nocircleno.com/blog/svg-with-backbone-js/
