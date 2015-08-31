@@ -13,6 +13,13 @@ They can then make entries in this subject and view those entries on a graph aga
 
 On the graph itself, users can change which of the attributes are shown, and which shape of trendline is used for that attribute.
 
+Technologies
+--------------
+Ruby
+Rails
+Backbone
+Javascript
+D3
 
 Future todos (more to come)
 --------------
