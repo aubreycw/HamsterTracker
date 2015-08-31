@@ -11,6 +11,8 @@ This website enables users to track whichever subjects they would like to. Users
 
 They can then make entries in this subject and view those entries on a graph against time. Coupled with the table of correlations that automatically displays on the page, this makes the relationship between each of the attributes and how they have changed over time obvious.
 
+On the graph itself, users can change which of the attributes are shown, and which shape of trendline is used for that attribute.
+
 
 Future todos (more to come)
 --------------
