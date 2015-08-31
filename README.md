@@ -1,10 +1,15 @@
- #HamsterTracker
- ####A generalised tracking app
+HamsterTracker
+==============
+A generalised tracking app
  
- ##Concept 
+Concept 
+--------------
 
- ##Features
+Features
+--------------
 
- ##Technologies 
+Technologies 
+--------------
 
- ##Future todos
+Future todos
+--------------
