@@ -1,6 +1,8 @@
 HamsterTracker
 ==============
 A generalised tracking app
+
+See a live version at hamstertracker.me
  
 Concept and Features
 --------------
@@ -9,8 +11,11 @@ This website enables users to track whichever subjects they would like to. Users
 
 They can then make entries in this subject and view those entries on a graph against time. Coupled with the table of correlations that automatically displays on the page, this makes the relationship between each of the attributes and how they have changed over time obvious.
 
-Technologies 
---------------
 
-Future todos
+Future todos (more to come)
 --------------
+- Add different shapes of trendlines
+- Add ability for users to set email alerts (eg, if hamster weight reduces for two days in a row)
+- Automatic choosing of best function for line of best fit
+- View attributes graphed against other attributes (instead of time)
+- Users can choose color for each attribute
