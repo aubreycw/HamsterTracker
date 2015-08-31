@@ -18,6 +18,8 @@
 //= require underscore
 //= require backbone
 //= require_tree ./utils
+//= require tether.min.js
+//= require shepherd.min.js
 //= require hamster_tracker
 //= require_tree ../templates
 //= require_tree ./models
